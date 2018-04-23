@@ -1,0 +1,15 @@
+<!-- will show up on rooms-list.hbs (aka the groups I am part of)
+should display an image, name, description
+(similar to IronBeers cards or Netflix User page)
+-->
+
+<!-- call a partial passing the info about each group -->
+{{#each }}
+    <div class = "wrapper container">
+        <div class = "row">
+            <div class = "col-4">
+                {{> myRoomsPartial}}
+            </div>
+        </div>
+    </div>
+{{/each}}
