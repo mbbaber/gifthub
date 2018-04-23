@@ -1,71 +1,73 @@
-<h1>HOMEPAGE</h1>
 
-<br><br><br>
 
+
+<div class="forms-wrapper">
+
+    <p><a id="signup-link" href="#">Sign up</a> | <a id="login-link" href="#">Log in</a></p><br>
+
+    
+    
 {{!-- 
 SIGN UP FORM
 --------------------------------------------------------------------------
  --}}
 
-<h3>Sign up</h3><br>
-<form action="/process-signup" method="POST">
+    <form id="signup-form" action="/process-signup" method="POST">
 
-    <label for="fullName">What should we call you?</label><br>
-    <input id="fullName" type="text" name="fullName"><br><br>
+        <label for="fullName">What should we call you?</label><br>
+        <input id="fullName" type="text" name="fullName"><br><br>
 
-        {{#if nameMessage}}
-            <p>{{nameMessage}}</p>
-        <br><br>
-        {{/if}}
+            {{#if nameMessage}}
+                <p>{{nameMessage}}</p>
+            <br><br>
+            {{/if}}
 
-    <label for="email">Email</label><br>
-    <input id="email" type="email" name="email"><br><br>
+        <label for="email">Email</label><br>
+        <input id="email" type="email" name="email"><br><br>
 
-        {{#if emailMessage}}
-            <p>{{emailMessage}}</p>
-        <br><br>
-        {{/if}}
+            {{#if emailMessage}}
+                <p>{{emailMessage}}</p>
+            <br><br>
+            {{/if}}
 
-    <label for="password">Password</label><br>
-    <input id="password" type="password" name="password"><br><br>
+        <label for="password">Password</label><br>
+        <input id="password" type="password" name="password"><br><br>
 
-        {{#if passwordMessage}}
-            <p>{{passwordMessage}}</p>
-        <br><br>
-        {{/if}}
+            {{#if passwordMessage}}
+                <p>{{passwordMessage}}</p>
+            <br><br>
+            {{/if}}
 
-    <button>Let's go!</button>
+        <button>Let's go!</button>
 
-</form>
-
-<br><br><br>
+    </form>
 
 
 
-{{!-- 
-LOG IN FORM
---------------------------------------------------------------------------
- --}}
+    {{!-- 
+    LOG IN FORM
+    --------------------------------------------------------------------------
+    --}}
 
-<h3>Log in</h3><br>
-<form action="/process-login" method="POST">
+    <form id="login-form" action="/process-login" method="POST">
 
-    <label for="email">Email</label><br>
-    <input id="email" type="email" name="email"><br><br>
+        <label for="email">Email</label><br>
+        <input id="email" type="email" name="email"><br><br>
 
-        {{#if noUserMessage}}
-            <p>{{noUserMessage}}</p>
-        <br><br>
-        {{/if}}
+            {{#if noUserMessage}}
+                <p>{{noUserMessage}}</p>
+            <br><br>
+            {{/if}}
 
-    <label for="password">Password</label><br>
-    <input id="password" type="password" name="password"><br><br>
+        <label for="password">Password</label><br>
+        <input id="password" type="password" name="password"><br><br>
 
-        {{#if wrongPasswordMessage}}
-            <p>{{wrongPasswordMessage}}</p>
-        <br><br>
-        {{/if}}
+            {{#if wrongPasswordMessage}}
+                <p>{{wrongPasswordMessage}}</p>
+            <br><br>
+            {{/if}}
 
-    <button>Let's go!</button>
+        <button>Let's go!</button>
 
-</form>
+    </form>
+</div>
