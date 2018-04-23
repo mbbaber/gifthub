@@ -8,9 +8,11 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+
 // Maggie added these
 const session = require("express-session") 
-const MongoStore = require('connect-mongo')(session); 
+const MongoStore = require('connect-mongo')(session);
+
 //const passportSetup = require('./passport/setup');
 const flash = require('flash');
 
