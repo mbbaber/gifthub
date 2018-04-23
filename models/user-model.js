@@ -13,7 +13,7 @@ const userSchema = new Schema ({
     roomsList: [
         {
         type: Schema.Types.ObjectId,
-        unique: true,
+        // unique: true,
         ref: "Room"
         }
     ]
