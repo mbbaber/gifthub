@@ -7,15 +7,5 @@ should display an image, name, description
 <p class="room-photo">{{this.pictureUrl}}</p>
 <p class="room-text">{{this.description}</p>
 <a href="/groups/{{this.id}}"><button type="submit">
- View Albums</button> </a>
+ View Room</button> </a>
 
- // This is my route to individual group page
-app.get('/groups/:groupId', (req, res, next) => {
-    .then(data => {
-        //res.locals.groupArray = data.body.items;
-        res.render('my-room');
-    })
-    .catch(err => {
-        console.log("You have an error", err);
-    })
-})
