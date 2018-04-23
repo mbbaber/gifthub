@@ -26,18 +26,17 @@ router.use( ensureLogin.ensureLoggedIn() );
 
 // render rooms-list page
 router.get("/my-rooms", (req, res, next) => {
-    res.render("rooms-list");
+    Room.find({member: req.user._id }) //will find only the rooms whose user is the logged-in user.
+    .populate("member")
+    .then((roomsFromDb) => {
+        res.locals.roomList = roomsFromDb;
+        res.render("rooms-list");
+    })
+    .catch((err) => {
+        next(err);
+    })
 });
-//     Room.find({member: req.user._id }) //will find only the rooms whose user is the logged-in user.
-//     .populate("member")
-//     .then((roomsFromDb) => {
-//         res.locals.roomList = roomsFromDb;
-//         res.render("rooms-list");
-//     })
-//     .catch((err) => {
-//         next(err);
-//     })
-// });
+
 
 //CREATE A NEW ROOM/GROUP IN THE DATABASE
 router.post("/process-room", (req, res, next) => {
@@ -48,8 +47,12 @@ router.post("/process-room", (req, res, next) => {
     // }
     const { name, description, pictureUrl } = req.body;
     //creates room for whomever is logged-in
+    console.log(req.user._id)
     const administratorId = req.user._id;
-    Room.create({ name, description, pictureUrl: administratorId})
+    const member = req.user._id;
+    Room.create({ name, description, pictureUrl, administratorId, members: [member]})
+
+    //if I want to add members, i need to use a mongoose operator... something like $push
 
     //Room.create({name, description, pictureUrl})
     .then(() => {
