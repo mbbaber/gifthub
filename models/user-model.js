@@ -7,14 +7,16 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema ({
     fullName: {type: String, required: true },
     email: {type: String, required: true, unique: true },
-    role: {
-        type: String, 
-        enum: ["normal", "admin"],
-        default: "normal"
-    },
     pictureUrl: {type: String, required: true },
     // normal sign up & login
     encryptedPassword: {type: String, required: true },
+    roomsList: [
+        {
+        type: Schema.Types.ObjectId,
+        unique: true,
+        ref: "Room"
+        }
+    ]
 
     // login with Google could eventually go here.
 

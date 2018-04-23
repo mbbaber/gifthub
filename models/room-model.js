@@ -6,17 +6,26 @@ const Schema = mongoose.Schema;
 const roomSchema = new Schema ({
     name: {type: String, required: true },
     description: {type: String, required: true },
-    pictureUrl: {type: String, required: true },
+    pictureUrl: {
+        type: String,
+        default: "https://i.pinimg.com/236x/45/a3/c8/45a3c81a5291bfb69de1c362149ed9df--candy-delivery-special-person.jpg" },
     // who is a part of the group?
-    member: {
+    members: [
+        {
         type: Schema.Types.ObjectId, //this needs to be several people?
         ref: "User",
         required: true
-    }, 
-    administrator: {type: String, required: true },
+        }
+    ],
+    administratorId: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: "User"
+    },
 }, {
     timestamps: true
 });
 
 const Room = mongoose.model("Room", roomSchema);
+
 module.exports = Room;
