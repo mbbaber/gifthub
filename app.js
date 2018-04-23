@@ -41,21 +41,32 @@ app.use(require('node-sass-middleware')({
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
-      
+
+hbs.registerPartials(__dirname + '/views/partials');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
-
+// important to do this before your routes
+app.use(session({
+  secret: 'secret different for every app',
+  saveUninitialized: true, 
+  resave: true, 
+  //store session data in MongoDB
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
 
-
-
 const index = require('./routes/index');
 app.use('/', index);
 
+const authRouter = require('./routes/auth-router');
+app.use('/', authRouter);
+
+const roomRouter = require('./routes/room-router');
+app.use('/', roomRouter);
 
 module.exports = app;

@@ -9,5 +9,4 @@ const User = require("../models/user-model");
 
 //code goes here
 
-
 module.exports = router; 
