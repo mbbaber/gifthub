@@ -39,6 +39,9 @@ a:hover {
 .margins-rooms-list {
   margin: 10px; }
 
+.main-container {
+  padding: 40px; }
+
 header, footer {
   width: 100vw;
   height: 60px;

@@ -7,13 +7,13 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema ({
     fullName: {type: String, required: true },
     email: {type: String, required: true, unique: true },
-    pictureUrl: {type: String, required: true },
+    pictureUrl: String,
     // normal sign up & login
     encryptedPassword: {type: String, required: true },
     roomsList: [
         {
         type: Schema.Types.ObjectId,
-        unique: true,
+        // unique: true,
         ref: "Room"
         }
     ]

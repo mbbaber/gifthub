@@ -1,10 +1,15 @@
 // OUR ROUTES ASSOCIATED WITH ROOMS
 
 const express = require("express");
+const passport = require("passport");
+const router = express.Router();
 
 const Room = require("../models/room-model")
 
-const router = express.Router();
+
+
+// ROUTES
+///////////////////////////////////////////////////////
 
 // render rooms-list page
 router.get("/my-rooms", (req, res, next) => {
@@ -37,5 +42,9 @@ router.post("/process-room", (req, res, next) => {
         next(err);
     })
 });
+
+///////////////////////////////////////////////////////
+
+
 
 module.exports = router;
