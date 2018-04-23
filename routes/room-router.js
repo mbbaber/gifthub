@@ -1,17 +1,22 @@
 // OUR ROUTES ASSOCIATED WITH ROOMS
 
-const express = require("express");
-const passport = require("passport");
-const router = express.Router();
+const express        = require("express");
+const passport       = require("passport");
+const router         = express.Router();
+const ensureLogin    = require( "connect-ensure-login" );
 
-const Room = require("../models/room-model")
+const Room           = require("../models/room-model")
 
+
+
+
+router.use( ensureLogin.ensureLoggedIn() );
 
 
 // ROUTES
 ///////////////////////////////////////////////////////
 
-// render rooms-list page
+// render rooms-list page()
 router.get("/my-rooms", (req, res, next) => {
     res.render("rooms-list");
     //Room.find({member: req.user._id }) //will find only the rooms whose user is the logged-in user.
@@ -26,11 +31,11 @@ router.get("/my-rooms", (req, res, next) => {
 });
 
 router.post("/process-room", (req, res, next) => {
-    if (!req.user) {
-        res.flash("error", "You must be logged-in to see this page")
-        res.redirect("/");
-        return
-    }
+    // if (!req.user) {
+    //     res.flash("error", "You must be logged-in to see this page")
+    //     res.redirect("/");
+    //     return
+    // }
     const { name, description, pictureUrl } = req.body;
     //creates room for whomever is logged-in
     Room.create({ name, description, pictureUrl, owner: req.user._id })

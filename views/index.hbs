@@ -2,17 +2,37 @@
 
 <br><br><br>
 
+{{!-- 
+SIGN UP FORM
+--------------------------------------------------------------------------
+ --}}
+
 <h3>Sign up</h3><br>
 <form action="/process-signup" method="POST">
 
     <label for="fullName">What should we call you?</label><br>
     <input id="fullName" type="text" name="fullName"><br><br>
 
+        {{#if nameMessage}}
+            <p>{{nameMessage}}</p>
+        <br><br>
+        {{/if}}
+
     <label for="email">Email</label><br>
     <input id="email" type="email" name="email"><br><br>
 
+        {{#if emailMessage}}
+            <p>{{emailMessage}}</p>
+        <br><br>
+        {{/if}}
+
     <label for="password">Password</label><br>
     <input id="password" type="password" name="password"><br><br>
+
+        {{#if passwordMessage}}
+            <p>{{passwordMessage}}</p>
+        <br><br>
+        {{/if}}
 
     <button>Let's go!</button>
 
@@ -20,14 +40,31 @@
 
 <br><br><br>
 
+
+
+{{!-- 
+LOG IN FORM
+--------------------------------------------------------------------------
+ --}}
+
 <h3>Log in</h3><br>
 <form action="/process-login" method="POST">
 
     <label for="email">Email</label><br>
     <input id="email" type="email" name="email"><br><br>
 
+        {{#if noUserMessage}}
+            <p>{{noUserMessage}}</p>
+        <br><br>
+        {{/if}}
+
     <label for="password">Password</label><br>
     <input id="password" type="password" name="password"><br><br>
+
+        {{#if wrongPasswordMessage}}
+            <p>{{wrongPasswordMessage}}</p>
+        <br><br>
+        {{/if}}
 
     <button>Let's go!</button>
 

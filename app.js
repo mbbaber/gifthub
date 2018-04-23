@@ -8,12 +8,15 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const passport     = require( "passport" );
 
 // Maggie added these
 const session = require("express-session") 
 const MongoStore = require('connect-mongo')(session);
 
-//const passportSetup = require('./passport/setup');
+// const LocalStrategy = require("passport-local").Strategy;
+
+const passportSetup = require('./passport/setup');
 const flash = require('flash');
 
 mongoose.Promise = Promise;
@@ -52,15 +55,14 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // important to do this before your routes
 app.use(session({
-  secret: 'secret different for every app',
+  secret: 'this is GiftHub baybay!',
   saveUninitialized: true, 
   resave: true, 
   //store session data in MongoDB
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
-// default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+passportSetup( app );
 
 const index = require('./routes/index');
 app.use('/', index);

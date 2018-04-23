@@ -19,17 +19,17 @@ router.post( "/process-signup", ( req, res, next ) => {
     // password will be encrypted, then sent to the server
 
     if( fullName === "" ) {
-        res.redirect( "/index", { message: "The name can't be empty!" } );
+        res.render( "index", { nameMessage: "The name can't be empty!" } );
         return;
     }
 
     if( password === "" || password.length < 5 ) {
-        res.redirect( "/index", { message: "The password can't be empty, and must be longer than 4 signs!" } );
+        res.render( "index", { passwordMessage: "The password can't be empty, and must be longer than 4 signs!" } );
         return;
     }
 
     if( email === "" ) {
-        res.redirect( "/index", { message: "The email can't be empty!" } );
+        res.render( "index", { emailMessage: "The email can't be empty!" } );
         return;
     }
     // If the password field is empty, or if there's not at least one digit, it will just redirect to the homepage and "return", so the code below won't run.
@@ -53,10 +53,53 @@ router.post( "/process-signup", ( req, res, next ) => {
 
 
 
+router.post( "/process-login", ( req, res, next ) => {
+    const { email, password } = req.body;
+    // Je récupère l'email et le password que la personne a rentrés dans les champs, via req.body
+
+    User.findOne({ email })
+    // Je demande de fouiller dans la data base "User", et de trouver l'email entré par l'utilisateur (que je viens de récupérer dans la const)
+    
+        .then(( userDetails ) => {
+        // if the email doesn't exist in the DB, there won't be an error, userDetails will be falsy
+
+        if( !userDetails ) {
+        // Here, by "!userDetails", I just check if it's falsy. If it is, I redirect and return.
+
+            res.render( "index", { noUserMessage: "Seems you're not in the database, try signing up first!" } );
+            return;
+        }
+        
+        const { encryptedPassword } = userDetails;
+        // I retrieve the "encryptedPassword" variable from the userDetails
+
+        if( !bcrypt.compareSync( password, encryptedPassword )) {
+        // Here, I check if the bcrypt "compareSync" method returns true. If not, I redirect to the login page
+            
+            res.render( "index", { wrongPasswordMessage: "Oops, maybe you misstiped?" }  );
+            return;
+        }
+        
+        req.login( userDetails, () => {
+        // "req.login()" is Passport's method for logging a user in
+
+            res.redirect( "/my-rooms" );
+        });
+
+        })
+        .catch(( err ) => {
+
+        })
+});
 
 
 
+router.get( "/logout", ( req, res, next ) => {
+    req.logout();
+    // "req.logout()" is Passport's method for logging a user out
 
+    res.redirect( "/" );
+});
 
 
 

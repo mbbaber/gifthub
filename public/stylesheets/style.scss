@@ -61,6 +61,7 @@ a:hover {
 header, footer {
   width: 100vw;
   height: 60px;
+  position: fixed;
   padding: 15px 30px;
   box-sizing: border-box;
   display: flex;
@@ -70,12 +71,12 @@ header, footer {
 header {
   justify-content: flex-end;
   background: royalblue;
+  top: 0;
 }
 
 footer {
   justify-content: center;
   background: darkgray;
-  position: fixed;
   bottom: 0;
 }
 
