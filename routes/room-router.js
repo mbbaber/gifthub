@@ -7,20 +7,11 @@ const ensureLogin    = require( "connect-ensure-login" );
 
 const Room           = require("../models/room-model")
 
-<<<<<<< HEAD
 
-
+////// ROUTES
 
 router.use( ensureLogin.ensureLoggedIn() );
 
-
-// ROUTES
-///////////////////////////////////////////////////////
-
-// render rooms-list page()
-=======
-// ROUTES
-///////////////////////////////////////////////////////
 
 //  This is my route to individual group page
 // router.get('/groups/:groupId', (req, res, next) => {
@@ -34,7 +25,6 @@ router.use( ensureLogin.ensureLoggedIn() );
 // })
 
 // render rooms-list page
->>>>>>> 16e6ec6d521eeb187140c9b3f4a56908e7e69ccf
 router.get("/my-rooms", (req, res, next) => {
     res.render("rooms-list");
 });
@@ -53,11 +43,7 @@ router.get("/my-rooms", (req, res, next) => {
 router.post("/process-room", (req, res, next) => {
     // if (!req.user) {
     //     res.flash("error", "You must be logged-in to see this page")
-<<<<<<< HEAD
     //     res.redirect("/");
-=======
-    //     res.redirect("/login");
->>>>>>> 16e6ec6d521eeb187140c9b3f4a56908e7e69ccf
     //     return
     // }
     const { name, description, pictureUrl } = req.body;
