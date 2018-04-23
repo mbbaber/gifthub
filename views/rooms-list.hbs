@@ -4,15 +4,42 @@ should display an image, name, description
 -->
 <h1 class = "center">MY ROOMS</h1>
 
-<!-- call a partial passing the info about each group -->
-<!--
-#each
-    <div class = "wrapper container">
-        <div class = "row">
-            <div class = "col-4 margins-rooms-list">
-                {{> myRoomsPartial}}
+<!-- call a partial passing the info about each group
+
+<ul>
+    {{#each roomList}}
+
+    <li>
+        <div class = "wrapper container">
+            <div class = "row">
+                <div class = "col-4 margins-rooms-list">
+                    {{> myRoomsPartial}}
+                </div>
             </div>
         </div>
-    </div>
-/each
+    </li>
+
+    {{else}}
+
+    <p>You do not currently have any rooms</p>
+
+    {{/each}}
+</ul>
 -->
+
+<div class="popup" onclick="myFunction()">Click me!
+  <span class="popuptext" id="myPopup">
+      
+
+      
+  </span>
+</div>
+<script>
+// When the user clicks on <div>, open the popup
+
+function myFunction() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+}
+</script>
+

@@ -71,4 +71,10 @@ app.use('/', authRouter);
 const roomRouter = require('./routes/room-router');
 app.use('/', roomRouter);
 
+// When the user clicks on <div>, open the popup (in my-rooms)
+function myPopUp() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+}
+
 module.exports = app;
