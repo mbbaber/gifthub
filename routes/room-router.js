@@ -8,15 +8,16 @@ const router = express.Router();
 
 // render rooms-list page
 router.get("/my-rooms", (req, res, next) => {
-    Room.find({member: req.user._id }) //will find only the rooms whose user is the logged-in user.
-    .populate("member")
-    .then((roomsFromDb) => {
-        res.locals.roomList = roomsFromDb;
-        res.render("rooms-list");
-    })
-    .catch((err) => {
-        next(err);
-    })
+    res.render("rooms-list");
+    //Room.find({member: req.user._id }) //will find only the rooms whose user is the logged-in user.
+    //.populate("member")
+    //.then((roomsFromDb) => {
+    //    res.locals.roomList = roomsFromDb;
+    //    res.render("rooms-list");
+    // })
+    // .catch((err) => {
+    //     next(err);
+    // })
 });
 
 router.post("/process-room", (req, res, next) => {
