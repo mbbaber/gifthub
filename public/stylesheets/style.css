@@ -33,6 +33,12 @@ ol, ul {
 a:hover {
   text-decoration: none; }
 
+.center {
+  text-align: center; }
+
+.margins-rooms-list {
+  margin: 10px; }
+
 header, footer {
   width: 100vw;
   height: 60px;
@@ -56,8 +62,5 @@ footer {
 
 header a, footer a, footer {
   color: white; }
-
-.center {
-  text-align: center; }
 
 /*# sourceMappingURL=style.css.map */
