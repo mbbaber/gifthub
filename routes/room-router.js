@@ -8,10 +8,15 @@ const ensureLogin    = require( "connect-ensure-login" );
 const Room           = require("../models/room-model")
 
 
-////// ROUTES
+////// MIDDLEWARES
+//////////////////////////////////////////////////////////////////////////////////
+
 
 router.use( ensureLogin.ensureLoggedIn() );
 
+
+////// ROUTES
+//////////////////////////////////////////////////////////////////////////////////
 
 //  This is my route to individual group page
 // router.get('/groups/:groupId', (req, res, next) => {
