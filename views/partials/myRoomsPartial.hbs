@@ -3,8 +3,19 @@ should display an image, name, description
 (similar to IronBeers cards or Netflix User page)
 -->
 
-<!--- should look something like this 
-        <h5 class="room-title">{{this.name}}</h5>
-        <p class="room-photo">{{this.photo}}</p>
-        <p class="room-text">{{this.pictureUrl}}</p>
---> 
+<h5 class="room-title">{{this.name}}</h5>
+<p class="room-photo">{{this.pictureUrl}}</p>
+<p class="room-text">{{this.description}</p>
+<a href="/groups/{{this.id}}"><button type="submit">
+ View Albums</button> </a>
+
+ // This is my route to individual group page
+app.get('/groups/:groupId', (req, res, next) => {
+    .then(data => {
+        //res.locals.groupArray = data.body.items;
+        res.render('my-room');
+    })
+    .catch(err => {
+        console.log("You have an error", err);
+    })
+})
