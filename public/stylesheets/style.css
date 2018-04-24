@@ -85,7 +85,7 @@ nav a {
 .active {
   color: aqua; }
 
-#abc {
+#abc, #abc1, #abc2 {
   width: 100%;
   height: 100%;
   top: 0;

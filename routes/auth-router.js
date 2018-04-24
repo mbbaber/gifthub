@@ -7,11 +7,9 @@ const router = express.Router();
 
 const User = require("../models/user-model");
 
-
-
 // ROUTES
 ///////////////////////////////////////////////////////
-
+//SIGN UP
 router.post( "/process-signup", ( req, res, next ) => {
     const { fullName, email, password } = req.body;
     // Here we prepare the name, the email and the password.
@@ -49,10 +47,7 @@ router.post( "/process-signup", ( req, res, next ) => {
         })
 });
 
-
-
-
-
+//SIGN OUT
 router.post( "/process-login", ( req, res, next ) => {
     const { email, password } = req.body;
     // Je récupère l'email et le password que la personne a rentrés dans les champs, via req.body
@@ -92,8 +87,7 @@ router.post( "/process-login", ( req, res, next ) => {
         })
 });
 
-
-
+//LOGOUT
 router.get( "/logout", ( req, res, next ) => {
     req.logout();
     // "req.logout()" is Passport's method for logging a user out
@@ -102,9 +96,77 @@ router.get( "/logout", ( req, res, next ) => {
 });
 
 
+// //ADD A NEW PERSON TO ROOM (will probably embed this into another function)
+// router.post("/process-room", (req, res, next) => {
+//     const { name, email } = req.body;
+//     // roomList - add object in this array with room
+//     const administratorId = req.user._id;
+//     const members = req.user._id;
+//     User.create({name, email })
+    
+//     //also need to PUSH member to "members" in group schema
 
-///////////////////////////////////////////////////////
+//         .then(() => {
+//             console.log("success person added to room!");
+//             res.redirect("/my-room");
+//         })
+//         .catch((err) => {
+//             next(err);
+//         })
+// });
 
+
+// //INVITE FRIENDS/PARTICIPANTS
+// router.post('/process-search', (req, res, next) => {
+//     const {name} = req.body;
+//     User.findOne({name})
+//         .then((userDetails) => {
+//             if (!userDetails) { // if no name matches in DB, 
+//                 console.log("no user by that name was found")
+//                                 // print or redirect to process-invite from (below)
+//             // req.query
+//             // if you find a name that matches in DB
+//             //then, print those names and buttons that say (send group invite)and you notify them by email
+//             //when you click on group invite, they appear in the group and the group appears to them
+//             }
+//         })
+//         .catch((err) => {
+//             next(err);
+//         })
+// })
+
+
+
+
+
+// router.post('/process-invite', invite );
+// //this is a function that invites a new user with an email
+
+// function invite(req, res, next) {
+//     let {name, email, message} = req.body;
+//     transport.sendMail({
+//       from: "Your website <website@example.com",
+//       to: email,
+//       //subject: `${the current user} would like to invite you to join GiftHub`,
+//       text: `
+//         Message: ${this.fullName} would like to invite you to join GiftHub, the highly-rated and fun gift-exchange application. Please see the following message from ${this.fullName}:
+//         ${message}
+//         To join your new group, please visit this link:
+//         LINK HERE! 
+//         and sign up for Gifthub!
+//       `,
+//       html: `
+//       <p>Message: ${message}</p> // Copy and paste from about text-message
+//       `
+//     })
+//     .then(() => {
+//       res.redirect('/my-room');
+//     })
+//     .catch((err) => {
+//       next(err)
+//     })
+//     //res.send(req.body); was only for testing purposes
+// }
 
 
 module.exports = router; 
