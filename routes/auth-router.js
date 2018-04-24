@@ -11,12 +11,10 @@ const Room = require("../models/room-model");
 
 // ROUTES
 ///////////////////////////////////////////////////////
+
 //SIGN UP
 router.post( "/process-signup", ( req, res, next ) => {
     const { fullName, email, password } = req.body;
-    // Here we prepare the name, the email and the password.
-    // Name and email are just gonna be sent to, the server
-    // password will be encrypted, then sent to the server
 
     if( fullName === "" ) {
         res.render( "index", { nameMessage: "The name can't be empty!" } );
@@ -32,13 +30,9 @@ router.post( "/process-signup", ( req, res, next ) => {
         res.render( "index", { emailMessage: "The email can't be empty!" } );
         return;
     }
-    // If the password field is empty, or if there's not at least one digit, it will just redirect to the homepage and "return", so the code below won't run.
 
     const salt = bcrypt.genSaltSync( 10 );
-    // Here, we generate our "salt", and capture it in a const. It's sort of a unique key to encrypt our password
-
     const encryptedPassword = bcrypt.hashSync( password, salt );
-    // Here, we encrypt our pawwsord, somehow mixing it with our "salt"
 
     User.create({ fullName, email, encryptedPassword })
         .then(() => {
@@ -46,7 +40,7 @@ router.post( "/process-signup", ( req, res, next ) => {
         })
         .catch(( err ) => {
             next( err );
-        })
+        });
 });
 
 //SIGN OUT

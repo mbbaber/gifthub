@@ -6,9 +6,7 @@ const Schema = mongoose.Schema;
 const roomSchema = new Schema ({
     name: {type: String, required: true },
     description: {type: String, required: true },
-    pictureUrl: {
-        type: String,
-        default: "https://i.pinimg.com/236x/45/a3/c8/45a3c81a5291bfb69de1c362149ed9df.jpg" },
+    pictureUrl: String,
     // who is a part of the group?
     members: [
         {

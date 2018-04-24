@@ -8,22 +8,20 @@
 
     <!-- call a partial passing the info about each group -->
 
-    <ul id="rooms-list-ul">
+    <div id="rooms-list">
         {{#each roomList}}
-        <li>
             {{> myRoomsPartial}}
-        </li>
         {{else}}
         <p>You do not currently have any rooms</p>
         {{/each}}
-    </ul>
+    </div>
 
 
     <div id="abc">
         <div id="popupContact">
 
         <form class= "form-class" action = "/process-room" method = "POST">
-            <img id="close" src="../public/images/xbutton.png" onclick ="div_hide()">
+            <img class="close" src="../public/images/x-button.png" onclick ="div_hide()">
             <h2>New Room</h2>
             <label>
             Name:

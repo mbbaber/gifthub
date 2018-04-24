@@ -1,12 +1,59 @@
-<h1 class="center">MY ROOM</h1>
-<!-- add the name of the group as the title 
+<div class="room-view-container">
 
--->
+    <div id="sidebar">
+        <div id="members-list">
+            <ul>
+
+                <!-- PRESENT MEMBER -->
+                <li>
+                    <div id="owner's card" class="member-card">
+                        <img src="" alt="Person's profile pic">
+                        <h3>Person's name</h3>
+                    </div>
+                </li>
+                
+                <!-- DISPLAY EXISTING MEMBERS -->
+                {{#each memberList}}
+                    <li>
+                        <div class="member-card">
+                            <img src="" alt="Person's profile pic">
+                            <h3>Person's name</h3>
+                        </div>
+                    </li>
+                {{/each}}
+                
+                <!-- ADD A MEMBER -->
+                <li>
+                    <div class="member-card">
+                        <button class="popup" onclick="div_show1()">Search for Participants</button>
+                        <button class="popup" onclick="div_show2()">Invite Participants</button>
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+
+        {{!-- <img src="" alt="chat button"> --}}
+
+    </div>
+<h1>MY ROOM</h1>
+<!-- add the name of the group as the title -->
+
+    <div class="wall-zone">
+        {{!-- {{#if isOwnWall}}
+            {{> ownWallPartial}}
+        {{else}}
+            {{> otherWallPartial}}
+        {{/if}} --}}
+    </div>
+
+</div>
 
 <div id="abc1">
     <div id="popupContact">
         <form class="form-class" action="/process-search" method="POST">
-            <img id="close" src="../public/images/xbutton.png" onclick="div_hide1()">
+            <img id="close" src="../../public/images/x-button.png" onclick="div_hide1()">
             <h2>Search for Someone:</h2>
             <label>
             <input type="text" name="name" size="35" placeholder="e.g. Lucas">
@@ -21,7 +68,7 @@
 <div id="abc2">
     <div id="popupContact">
         <form class="form-class" action="/process-invite/{{gId}}" method="POST">
-        <img id="close" src="../public/images/xbutton.png" onclick="div_hide2()">
+        <img id="close" src="../../public/images/x-button.png" onclick="div_hide2()">
             <label>
                 Name:
                 <input type="text" name="fullName" size="35" placeholder="e.g. Lucas">
@@ -52,10 +99,9 @@
     </div>
 </div>
 
-<!-- Display Popup Buttons -->
-<button id="popup" onclick="div_show1()">Search for Participants</button>
 
-<button id="popup" onclick="div_show2()">Invite Participants</button>
+
+
 
 <script>
 // Validating Empty Field

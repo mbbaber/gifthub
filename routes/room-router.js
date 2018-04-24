@@ -11,7 +11,7 @@ const Room           = require("../models/room-model")
 ////// MIDDLEWARES
 //////////////////////////////////////////////////////////////////////////////////
 
-router.use( ensureLogin.ensureLoggedIn() );
+router.use( ensureLogin.ensureLoggedIn("/") );
 
 ////// ROUTES
 //////////////////////////////////////////////////////////////////////////////////
@@ -49,9 +49,10 @@ router.get("/my-rooms", (req, res, next) => {
 //CREATE A NEW ROOM/GROUP IN THE DATABASE
 router.post("/process-room/", (req, res, next) => {
     const { name, description, pictureUrl } = req.body;
+    console.log( req.body );
     const administratorId = req.user._id;
     const members = req.user._id;
-    Room.create({ name, description, pictureUrl, administratorId, members })
+    Room.create({ name, description, pictureUrl, members, administratorId })
 
     //if I want to add members, i need to use a mongoose operator... something like $push
 
