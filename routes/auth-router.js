@@ -6,6 +6,8 @@ const passport = require("passport");
 const router = express.Router();
 
 const User = require("../models/user-model");
+const Invite = require("../models/invitation-model");
+const Room = require("../models/room-model");
 
 // ROUTES
 ///////////////////////////////////////////////////////
@@ -124,7 +126,9 @@ router.get( "/logout", ( req, res, next ) => {
 //             if (!userDetails) { // if no name matches in DB, 
 //                 console.log("no user by that name was found")
 //                                 // print or redirect to process-invite from (below)
-//             // req.query
+//             
+
+                // req.query
 //             // if you find a name that matches in DB
 //             //then, print those names and buttons that say (send group invite)and you notify them by email
 //             //when you click on group invite, they appear in the group and the group appears to them
@@ -136,37 +140,80 @@ router.get( "/logout", ( req, res, next ) => {
 // })
 
 
+//invites a new user with an email
+const nodemailer = require('nodemailer');
+const transport = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+    user: process.env.gmail_user,
+    pass: process.env.gmail_pass
+    }
+});
 
+// router.post('/process-invite', invite ); could turn this into function later
+router.post('/process-invite/:groupId', (req, res, next) => {
+    const {email, confirmationCode, message} = req.body;
+    
+    User.findOne({ email }, "email", (err, user) => {
+        if (user !== null) {
+        res.render("room-views/my-room", { message: "The email already exists" });
+        console.log("The email already exists")
+        return;
+        }
+    
+    const salt = bcrypt.genSaltSync(10);
+    const hashEmail = bcrypt.hashSync(email, salt);
 
+    const newInvite = new Invite({
+      email: email,
+      confirmationCode: hashEmail,
+      roomsList: req.params.groupId //room we want to invite the user to.
+    });
 
-// router.post('/process-invite', invite );
-// //this is a function that invites a new user with an email
+    const saveInvite = newInvite.save();
 
-// function invite(req, res, next) {
-//     let {name, email, message} = req.body;
-//     transport.sendMail({
-//       from: "Your website <website@example.com",
-//       to: email,
-//       //subject: `${the current user} would like to invite you to join GiftHub`,
-//       text: `
-//         Message: ${this.fullName} would like to invite you to join GiftHub, the highly-rated and fun gift-exchange application. Please see the following message from ${this.fullName}:
-//         ${message}
-//         To join your new group, please visit this link:
-//         LINK HERE! 
-//         and sign up for Gifthub!
-//       `,
-//       html: `
-//       <p>Message: ${message}</p> // Copy and paste from about text-message
-//       `
-//     })
-//     .then(() => {
-//       res.redirect('/my-room');
-//     })
-//     .catch((err) => {
-//       next(err)
-//     })
-//     //res.send(req.body); was only for testing purposes
-// }
+    router.get("/confirm/:hashEmail", (req, res, next) => {
+        res.redirect("confirm")
+    })
+
+    //let {fullName, email, message} = req.body;
+    const sendMail = transport.sendMail({
+            from: "GiftHub <maggie@gifthub.com",
+            to: email,
+            subject: `(insert name of user here) would like to invite you to join GiftHub`,
+            text: `Dear , <br/><br/>
+              (insert name of user here) would like to invite you to join GiftHub, the highly-rated and fun gift-exchange application. 
+              <br/><br/> Please see the following message from (insert name of user here):
+              <br/><br/> ${message}
+              <br/><br/>
+              Click on this link http://localhost:3000/confirm/${hashEmail} to sign up and access your new group <br/>
+            `,
+            html: `
+            Dear , <br/><br/>
+              (insert name of user here) would like to invite you to join GiftHub, the highly-rated and fun gift-exchange application. 
+              <br/><br/> Please see the following message from (insert name of user here):
+              <br/><br/> ${message}
+              <br/><br/>
+              Click on this link http://localhost:3000/confirm/${hashEmail} to sign up and access your new group <br/>
+            `
+          })
+          .then(() => {
+              res.render('room-views/my-room');
+          })
+          .catch((err) => {
+            next(err)
+          })
+          //res.send(req.body); was only for testing purposes
+
+          Promise.all([ saveInvite, sendMail ])
+            .then(() => {
+                res.redirect('/');
+            })
+            .catch((err) => {
+                next(err);
+            });
+    });
+});
 
 
 module.exports = router; 
