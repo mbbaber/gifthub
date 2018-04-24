@@ -18,16 +18,15 @@ router.use( ensureLogin.ensureLoggedIn() );
 ////// ROUTES
 //////////////////////////////////////////////////////////////////////////////////
 
-//  This is my route to individual group page
-// router.get('/groups/:groupId', (req, res, next) => {
-//     .then(data => {
-//         res.locals.groupArray = data.body.items;
-//         res.render('room-views/my-room');
-//     })
-//      .catch(err) => {
-//          console.log("You have an error", err);
-//     })
-// })
+// This is my route to individual group page
+router.get('/groups/:groupId', (req, res, next) => {
+    //.then(data => {
+        //res.locals.groupArray = data.body.items;
+        res.render('room-views/my-room');
+    })
+    // .catch(err) => {
+    //      console.log("You have an error", err);
+    // })
 
 // render rooms-list page with user's rooms
 router.get("/my-rooms", (req, res, next) => {

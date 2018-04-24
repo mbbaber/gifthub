@@ -1,30 +1,27 @@
-<h1 class="center">ROOM #1 - TESTING</h1>
+<h1 class="center">MY ROOM</h1>
 <!-- add the name of the group as the title 
 
-for each user, cycle through wishlists
-<h1 class = "center">{{this.name)</h1> 
 -->
 
-
-<div id="abc">
+<div id="abc1">
     <div id="popupContact">
-
         <form class="form-class" action="/process-search" method="POST">
-            <img id="close" src="../public/images/xbutton.png" onclick="div_hide()">
-            <h2>Invite participants</h2>
+            <img id="close" src="../public/images/xbutton.png" onclick="div_hide1()">
+            <h2>Search for Someone:</h2>
             <label>
-                Search for Someone:
-                <input type="text" name="name" size="35" placeholder="e.g. Lucas">
+            <input type="text" name="name" size="35" placeholder="e.g. Lucas">
             </label>
             <br />
             <br />
             <button>Search</button>
         </form>
+    </div>
+</div>
 
+<div id="abc2">
+    <div id="popupContact">
         <form class="form-class" action="/process-invite" method="POST">
-            {#if}
-        
-        
+        <img id="close" src="../public/images/xbutton.png" onclick="div_hide2()">
             <label>
                 Name:
                 <input type="text" name="name" size="35" placeholder="e.g. Lucas">
@@ -55,8 +52,10 @@ for each user, cycle through wishlists
     </div>
 </div>
 
-<!-- Display Popup Button -->
-<button id="popup" onclick="div_show()">Invite Participants</button>
+<!-- Display Popup Buttons -->
+<button id="popup" onclick="div_show1()">Search for Participants</button>
+
+<button id="popup" onclick="div_show2()">Invite Participants</button>
 
 <script>
 // Validating Empty Field
@@ -69,11 +68,19 @@ alert("Form Submitted Successfully...");
 }
 }
 //Function To Display Popup
-function div_show() {
-document.getElementById('abc').style.display = "block";
+function div_show1() {
+document.getElementById('abc1').style.display = "block";
+}
+
+function div_show2() {
+document.getElementById('abc2').style.display = "block";
 }
 //Function to Hide Popup
-function div_hide(){
-document.getElementById('abc').style.display = "none";
+function div_hide1(){
+document.getElementById('abc1').style.display = "none";
+}
+
+function div_hide2(){
+document.getElementById('abc2').style.display = "none";
 }
 </script>
