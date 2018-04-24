@@ -15,26 +15,25 @@
         {{#if user}}
           <strong>{{user.email}}</strong>
           <a href = "/my-rooms">My Rooms</a>
+          <a href = "/my-profile">My Profile</a>
           <a href = "/logout">Log Out</a>
-
-        {{else}}
-          <a href = "/">Sign Up or Log in</a>
         {{/if}}
       </nav>
     </header>
-    <br><br><br><br>
+
 
     <div class="main-container">
       {{{body}}}
     </div>
 
-    <br><br><br><br>
-
     <footer>
         <p>Made with love at Ironhack by Lucas and Maggie</p>
     </footer>
 
-
+    <script
+    src="http://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
     <script src='/javascripts/script.js'></script>
   </body>
 </html>

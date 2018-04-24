@@ -8,10 +8,15 @@ const ensureLogin    = require( "connect-ensure-login" );
 const Room           = require("../models/room-model")
 
 
-////// ROUTES
+////// MIDDLEWARES
+//////////////////////////////////////////////////////////////////////////////////
+
 
 router.use( ensureLogin.ensureLoggedIn() );
 
+
+////// ROUTES
+//////////////////////////////////////////////////////////////////////////////////
 
 //  This is my route to individual group page
 // router.get('/groups/:groupId', (req, res, next) => {
@@ -40,28 +45,20 @@ router.get("/my-rooms", (req, res, next) => {
 
 //CREATE A NEW ROOM/GROUP IN THE DATABASE
 router.post("/process-room", (req, res, next) => {
-    // if (!req.user) {
-    //     res.flash("error", "You must be logged-in to see this page")
-    //     res.redirect("/");
-    //     return
-    // }
     const { name, description, pictureUrl } = req.body;
-    //creates room for whomever is logged-in
-    console.log(req.user._id)
     const administratorId = req.user._id;
-    const member = req.user._id;
-    Room.create({ name, description, pictureUrl, administratorId, members: [member]})
+    const members = req.user._id;
+    Room.create({ name, description, pictureUrl, administratorId, members })
 
     //if I want to add members, i need to use a mongoose operator... something like $push
 
-    //Room.create({name, description, pictureUrl})
-    .then(() => {
-        console.log("success Room created!");
-        res.redirect("/my-rooms");
-    })
-    .catch((err) => {
-        next(err);
-    })
+        .then(() => {
+            console.log("success Room created!");
+            res.redirect("/my-rooms");
+        })
+        .catch((err) => {
+            next(err);
+        })
 });
 
 module.exports = router;

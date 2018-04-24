@@ -7,7 +7,12 @@ const passport = require("passport");
 
 /* GET home page (index.js) */
 router.get('/', (req, res, next) => {
-  res.render('index');
+  if( !req.user ) {
+    res.render('index');
+  }
+  else {
+    res.redirect( "/my-rooms" );
+  }
 });
 
 module.exports = router;
