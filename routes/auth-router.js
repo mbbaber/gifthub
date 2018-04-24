@@ -101,10 +101,54 @@ router.get( "/logout", ( req, res, next ) => {
     res.redirect( "/" );
 });
 
+// //INVITE FRIENDS/PARTICIPANTS
+router.post('/process-search', (req, res, next) => {
+    const {name} = req.body;
+    User.findOne({name})
+        .then((userDetails) => {
+            if (!userDetails) {
+                console.log("no user by that name was found")
+                
+            req.query
+            // if you find a name that matches in DB
+            //then, print those names and buttons that say (send group invite)and you notify them by email
+            //when you click on group invite, they appear in the group and the group appears to them
+            //if no user is found, print process-invite from (below)
+            }
+        })
+        .catch((err) => {
+            next(err);
+        })
+})
 
+// router.post('/process-invite', invite );
+// //this is a function that invites a new user with an email
 
-///////////////////////////////////////////////////////
-
+// function invite(req, res, next) {
+//     const {name, email, message} = req.body;
+//     transport.sendMail({
+//       from: "Your website <website@example.com",
+//       to: email,
+//       //subject: `${the current user} would like to invite you to join GiftHub`,
+//       text: `
+//         Message: ${the current user} would like to invite you to join GiftHub, the highly-rated and fun gift-exchange application. Please see the following message from ${current user}:
+//         ${message}
+//         To join your new group, please visit this link:
+//         LINK HERE! 
+//         and sign up for Gifthub!
+//       `,
+//       html: `
+//       <p>Message: ${message}</p> // Copy and paste from about text-message
+//       `
+//     })
+//     .then(() => {
+//       res.redirect('/my-room');
+//     })
+//     .catch((err) => {
+//       next(err)
+//     })
+//     //res.send(req.body); was only for testing purposes
+// }
 
 
 module.exports = router; 

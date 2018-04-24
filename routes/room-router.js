@@ -24,10 +24,10 @@ router.use( ensureLogin.ensureLoggedIn() );
 //     })
 // })
 
-// render rooms-list page
+// render rooms-list page with user's rooms
 router.get("/my-rooms", (req, res, next) => {
-    Room.find({member: req.user._id }) //will find only the rooms whose user is the logged-in user.
-    .populate("member")
+    Room.find({members: req.user._id }) //will find only the rooms whose user is the logged-in user.
+    .populate("members")
     .then((roomsFromDb) => {
         res.locals.roomList = roomsFromDb;
         res.render("rooms-list");
@@ -63,33 +63,5 @@ router.post("/process-room", (req, res, next) => {
         next(err);
     })
 });
-
-//INVITE FRIENDS/PARTICIPANTS
-router.post('/process-invite', (req, res, next) => {
-    const {sender, senderEmail, message} = req.body;
-    transport.sendMail({
-      from: "Your website <website@example.com",
-      to: process.env.gmail_user, 
-      subject: `${sender} is trying to contact you`,
-      text: `
-        Name: ${sender}
-        Email: ${senderEmail}
-        Message: ${message}
-      `,
-      html: `
-      <h1>Contact Form Message<h1>
-      <p>Name: <b>${sender}<br></p>
-      <p>Email: ${senderEmail}</p>
-      <p>Message: ${message}</p>
-      `
-    })
-    .then(() => {
-      res.redirect('/');
-    })
-    .catch((err) => {
-      next(err)
-    })
-    //res.send(req.body); was only for testing purposes
-  });
 
 module.exports = router;
