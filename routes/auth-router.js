@@ -126,7 +126,9 @@ router.get( "/logout", ( req, res, next ) => {
 //             if (!userDetails) { // if no name matches in DB, 
 //                 console.log("no user by that name was found")
 //                                 // print or redirect to process-invite from (below)
-//             // req.query
+//             
+
+                // req.query
 //             // if you find a name that matches in DB
 //             //then, print those names and buttons that say (send group invite)and you notify them by email
 //             //when you click on group invite, they appear in the group and the group appears to them
@@ -138,8 +140,7 @@ router.get( "/logout", ( req, res, next ) => {
 // })
 
 
-//this is a function that invites a new user with an email
-
+//invites a new user with an email
 const nodemailer = require('nodemailer');
 const transport = nodemailer.createTransport({
     service: "Gmail",
@@ -185,7 +186,7 @@ router.post('/process-invite/:groupId', (req, res, next) => {
               <br/><br/> Please see the following message from (insert name of user here):
               <br/><br/> ${message}
               <br/><br/>
-              Click on this link http://localhost:3000/confirm/${hashEmail} to sign up and access you new Group <br/>
+              Click on this link http://localhost:3000/confirm/${hashEmail} to sign up and access your new group <br/>
             `,
             html: `
             Dear , <br/><br/>
@@ -193,7 +194,7 @@ router.post('/process-invite/:groupId', (req, res, next) => {
               <br/><br/> Please see the following message from (insert name of user here):
               <br/><br/> ${message}
               <br/><br/>
-              Click on this link http://localhost:3000/confirm/${hashEmail} to sign up and access you new Group <br/>
+              Click on this link http://localhost:3000/confirm/${hashEmail} to sign up and access your new group <br/>
             `
           })
           .then(() => {

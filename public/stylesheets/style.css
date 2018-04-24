@@ -25,7 +25,10 @@ footer, header, hgroup, menu, nav, section {
 
 body {
   line-height: 1;
-  font-family: sans-serif; }
+  font-family: sans-serif;
+  position: relative;
+  top: 60px;
+  bottom: 60px; }
 
 ol, ul {
   list-style: none; }
@@ -69,8 +72,11 @@ footer {
 #logo {
   margin-right: auto; }
 
-header a, footer a, footer {
+header a, footer a, footer, nav strong {
   color: white; }
+
+nav a {
+  margin-left: 20px; }
 
 .forms-wrapper {
   color: white;
