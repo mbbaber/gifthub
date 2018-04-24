@@ -11,15 +11,15 @@ $( "#signup-link" ).addClass( "active" );
 
 // Toggles the forms upon clicking on either link
 $( "#login-link" ).click(() => {
-  $( "#signup-form" ).toggle();
-  $( "#login-form" ).toggle();
+  $( "#signup-form" ).hide();
+  $( "#login-form" ).show();
   $( "#login-link" ).addClass( "active" );
   $( "#signup-link" ).removeClass( "active" );
 });
 
 $( "#signup-link" ).click(() => {
-  $( "#login-form" ).toggle();
-  $( "#signup-form" ).toggle();
+  $( "#login-form" ).hide();
+  $( "#signup-form" ).show();
   $( "#signup-link" ).addClass( "active" );
   $( "#login-link" ).removeClass( "active" );
 });

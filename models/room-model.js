@@ -8,7 +8,7 @@ const roomSchema = new Schema ({
     description: {type: String, required: true },
     pictureUrl: {
         type: String,
-        default: "https://i.pinimg.com/236x/45/a3/c8/45a3c81a5291bfb69de1c362149ed9df--candy-delivery-special-person.jpg" },
+        default: "https://i.pinimg.com/236x/45/a3/c8/45a3c81a5291bfb69de1c362149ed9df.jpg" },
     // who is a part of the group?
     members: [
         {

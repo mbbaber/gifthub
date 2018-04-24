@@ -2,9 +2,9 @@
 should display an image, name, description
 (similar to IronBeers cards or Netflix User page)
 -->
-
-<h5 class="room-title">{{this.name}}</h5>
-<p class="room-photo">{{this.pictureUrl}}</p>
-<p class="room-text">{{this.description}}</p>
-<a href="/groups/{{this.id}}"><button>View Room</button></a>
-
+<div class="room-card">
+    <img src="{{this.pictureUrl}}" alt="">
+    <h5>{{this.name}}</h5>
+    <p>{{this.description}}</p>
+    <a href="/groups/{{this.id}}"><button>Enter Room</button></a>
+</div>

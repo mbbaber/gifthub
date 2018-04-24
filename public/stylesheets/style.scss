@@ -39,25 +39,34 @@ ol, ul {
 
 a:hover {
   text-decoration: none;
+  color: darkturquoise;
 }
 
-.center {
-  text-align: center;
-}
-
-.margins-rooms-list {
-  margin: 10px;
-}
-
-.main-container {
+.index-container,
+.rooms-list-container,
+.room-view-container {
   width: 100vw;
   height: 85vh;
   padding: 40px;
   display: flex;
-  align-items: center;
   background-image: url( "../images/christmas-dark.png" );
+  color: white;
 }
 
+.index-container {
+  align-items: center;
+} 
+
+.rooms-list-container {
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 100px;
+}
 
 
 
@@ -76,7 +85,7 @@ header, footer {
 
 header {
   justify-content: flex-end;
-  background: royalblue;
+  background: darkturquoise;
   top: 0;
 }
 
@@ -90,7 +99,7 @@ footer {
   margin-right: auto;
 }
 
-header a, footer a, footer, nav strong {
+a, footer, nav strong {
   color: white;
 }
 
@@ -110,7 +119,68 @@ nav a {
 }
 
 .active {
-  color: aqua;
+  color: darkturquoise;
+}
+
+
+
+
+// ROOMS LIST VIEW
+////////////////////////////////////////////////////////////////////
+
+#rooms-list-ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 750px;
+  flex-wrap: wrap;
+}
+
+.room-card img {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 16px;
+}
+
+.room-card h5 {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.room-card p {
+  margin-bottom: 24px;
+  color: lightgray;
+}
+
+.room-card button {
+  background-color: darkturquoise;
+  border-radius: 5px;
+  border: none;
+  padding: 2px 5px;
+}
+
+.room-card {
+  width: 150px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+
+
+// ROOM MAIN VIEW
+////////////////////////////////////////////////////////////////////
+
+#members-sidebar {
+  position: fixed;
+  left: 0;
+  top: 60px;
+  bottom: 60px;
+  width: 300px;
 }
 
 
@@ -131,6 +201,11 @@ nav a {
   background-color:white;
   overflow:auto
   }
+
+  #create-new-room {
+    margin-top: 100px;
+  }
+  
   img#close {
   position:absolute;
   right:-14px;

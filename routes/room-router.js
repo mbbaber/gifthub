@@ -28,6 +28,12 @@ router.get('/groups/:groupId', (req, res, next) => {
     //      console.log("You have an error", err);
     // })
 
+router.get('/main-room-view', (req, res, next) => {
+    //.then(data => {
+        //res.locals.groupArray = data.body.items;
+        res.render('room-views/main-room-view');
+    })
+
 // render rooms-list page with user's rooms
 router.get("/my-rooms", (req, res, next) => {
     Room.find({members: req.user._id }) //will find only the rooms whose user is the logged-in user.
