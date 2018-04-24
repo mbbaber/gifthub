@@ -45,7 +45,7 @@ a:hover {
   padding: 40px;
   display: flex;
   align-items: center;
-  background-image: url("../images/christmas-dark.png"); }
+  /*background-image: url( "../images/christmas-dark.png" );*/ }
 
 header, footer {
   width: 100vw;

@@ -8,12 +8,6 @@ const userSchema = new Schema ({
     fullName: {type: String, required: true },
     email: {type: String, required: true, unique: true },
     pictureUrl: String,
-    // Added status and confirmation code in order to work with email invitations
-    status: { 
-        type: String,
-        enum: ["Pending Confirmation", "Active"],
-        default: "Pending Confirmation"
-    },
     confirmationCode: {type: String, unique: true},
     // normal sign up & login
     encryptedPassword: {type: String, required: true },
