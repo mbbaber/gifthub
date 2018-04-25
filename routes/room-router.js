@@ -27,18 +27,9 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
         .populate("members")
         .exec()
         .then(populatedRooms => {
-            // // create a list of only ids
-            // res.locals.memberList = populatedRooms.members.map(u => u._id)
-            // const listOfIds = res.locals.memberList;    
-            // // remove current user's id
-            // listOfIds.splice(members.indexOf(req.member._id), 1)
-                
-            // // add it to the beginning
-            // listOfIds.unshift(req.member._id)
             res.locals.memberList = populatedRooms.members.map((m) => m.fullName)
             res.locals.gId = req.params.groupId
             res.locals.roomId = req.params.groupId
-
 
         const promises =
             populatedRooms.members.find(u => u._id == req.params.userId).walls.map(wId => Wall.findById(wId))
