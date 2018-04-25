@@ -74,7 +74,10 @@ router.get("/my-rooms", (req, res, next) => {
     .populate("members")
     .then((roomsFromDb) => {
         res.locals.roomList = roomsFromDb;
-        res.render("rooms-list");
+        res.locals.userId2 = req.user._id;
+        var userId = req.user._id
+        console.log(userId)
+        res.render("rooms-list", {userId});
     })
     .catch((err) => {
         next(err);
