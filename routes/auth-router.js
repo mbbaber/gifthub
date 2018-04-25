@@ -9,6 +9,7 @@ const router = express.Router();
 const User = require("../models/user-model");
 const Invite = require("../models/invitation-model");
 const Room = require("../models/room-model");
+const Wall = require("../models/wall-model");
 
 // ROUTES
 ///////////////////////////////////////////////////////
@@ -45,15 +46,35 @@ router.post("/process-signup", (req, res, next) => {
         user.save((err, user) => {
             console.log("Created user:" + user)
             if (invite) { // If the invite was present, add user to a room
-                console.log("Added user to a room" + invite.roomsList[0])
-                Room.update(
-                    { _id: invite.roomsList[0] }, 
-                    { $push : { members : user } } 
-                ).then(() => {
-                    req.login(user, () => {
-                        res.redirect("/my-rooms");
+                console.log("Added user to a room" + invite.roomsList[0] + user)
+                Room.update({ _id: invite.roomsList[0] }, { $push: { members: user } })
+                .then((room) => {
+                    Wall.create({
+                      ownerId: user._id,
+                      roomId: room._id
+                    }).then(wall => {
+                      User.update(
+                        { _id: user._id },
+                        { $push: { walls: wall._id } }
+                      ).then(() => {
+                        console.log(
+                          "Added user " +
+                            userId +
+                            " to room " +
+                            roomId
+                        )
+                        .catch((err) => {
+                            next(err)
+                        })
+                        res.redirect(`/groups/${roomId}`);
+                      });
                     });
-                })
+
+                    req.login(user, () => {
+                      res.redirect("/my-rooms");
+                    });
+                  }
+                );
             } else {
                 req.login(user, () => {
                     res.redirect("/my-rooms");
