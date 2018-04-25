@@ -219,8 +219,8 @@ router.get('/confirm/:hashEmail', (req, res, next) => {
 
     res.locals.confirmationCode = req.params.hashEmail
     res.render("index")
-
 })
 
 
 module.exports = router; 
+
