@@ -90,8 +90,9 @@ router.post("/process-room/", (req, res, next) => {
     const administratorId = req.user._id;
     const members = req.user._id;
     Room.create({ name, description, pictureUrl, members, administratorId })
-        .then(() => {
+        .then(( room ) => {
 
+            // CAN WE ACCESS THE DATA OF THE ROOM WE JUST CREATED, WITH THEN'S "ROOM" KEY?
 
             // Wall.create({
             //     ownerId: administratorId,
