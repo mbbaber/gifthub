@@ -1,19 +1,20 @@
 
 <h1>MY WISHLIST</h1>
 
-{{#if wishlist}}
-        <h3></h3>
-        <p>{{wishlist.title}}</p>
+{{#if wall}}
+        <h3>My wishlist</h3>
+        <p>{{wall.wishlist}}</p>
     {{else}}
         <h3>No items in wishlist yet</h3>
-    {{/if}}
+{{/if}}
+<br><br>
 
 <h2>Add an Item</h2>
 
 <form action = "/process-wishlist-item" method = "POST">
     <label>
         Item:
-        <input type = "text" name = "name"> 
+        <input type = "text" name = "title"> 
     </label>
     <br />
 

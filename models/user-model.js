@@ -14,8 +14,13 @@ const userSchema = new Schema ({
     roomsList: [
         {
         type: Schema.Types.ObjectId,
-        // unique: false,
         ref: "Room"
+        }
+    ],
+    walls: [
+        {
+        type: Schema.Types.ObjectId,
+        ref: "Wall"
         }
     ]
 

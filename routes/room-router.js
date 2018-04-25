@@ -22,25 +22,46 @@ router.use( ensureLogin.ensureLoggedIn("/") );
 //////////////////////////////////////////////////////////////////////////////////
 
 // This is my route to individual group page
-router.get('/groups/:groupId', (req, res, next) => {
+router.get('/groups/:groupId/:userId', (req, res, next) => {
+    Room.findById(req.params.groupId)
+        .populate("members")
+        .exec()
+        .then(populatedRooms => {
+            res.locals.memberList = populatedRooms.members.map((m) => m.fullName)
+            res.locals.gId = req.params.groupId
+            res.locals.roomId = req.params.groupId
 
-        Room.findById(req.params.groupId, "members", (err, room) => {
-                var promises = room.members.map((m) => 
-                    User.findById(m, "fullName")
-                )
+        const promises =
+            populatedRooms.members.find(u => u._id == req.params.userId).walls.map(wId => Wall.findById(wId))
+            Promise.all(promises)
+                .then(walls => {
+                    const currentWall = walls.find(w => w.roomId == req.params.groupId)
+                    console.log(currentWall)
 
-                Promise.all(promises)
-                       .then((users) => {
-                           console.log(users)
-                            res.locals.memberList = users.map((m) => m.fullName)
-                            res.locals.gId = req.params.groupId
-                            res.locals.roomId = req.params.groupId
-                            res.render('room-views/my-room');
-                       })
-                       .catch((err) => {
-                            next(err)
-                       })      
-            })
+                    res.locals.wall = currentWall
+                })
+            
+        res.render('room-views/my-room');
+    })
+
+        // Room.findById(req.params.groupId, "members", (err, room) => {
+        //         var promises = room.members.map((m) => 
+        //             User.findById(m, "fullName")
+        //         )
+        //         // This actually is just what POPULATE does!
+        //         Promise.all(promises)
+        //                .then((users) => {
+        //                    console.log(users)
+        //                     res.locals.memberList = users.map((m) => m.fullName)
+        //                     res.locals.gId = req.params.groupId
+        //                     res.locals.roomId = req.params.groupId
+                            
+        //                     res.render('room-views/my-room');
+        //                })
+        //                .catch((err) => {
+        //                     next(err)
+        //                })      
+        //     })
 
     })
 
@@ -69,8 +90,19 @@ router.post("/process-room/", (req, res, next) => {
     const administratorId = req.user._id;
     const members = req.user._id;
     Room.create({ name, description, pictureUrl, members, administratorId })
-
         .then(() => {
+
+
+            // Wall.create({
+            //     ownerId: administratorId,
+            //     roomId,
+            // }).then(wall => {
+            //     User.update({ _id: administratorId },{ $push : { walls : wall._id } }
+            //     ).then(() => {
+            //         console.log("Added user " + administratorId + " to room " + roomId)
+            //         res.redirect(`/groups/${roomId}`)
+
+
             console.log("success Room created!");
             res.redirect("/my-rooms");
         })
@@ -114,12 +146,23 @@ router.post("/add-user-to-room", (req, res, next) => {
         { _id: roomId }, 
         { $push : { members : { _id: userId } } }
     ).then(() => {
-        console.log("Added user " + userId + " to room " + roomId)
-        res.redirect(`/groups/${roomId}`)
+        Wall.create({
+            ownerId: userId,
+            roomId,
+        }).then(wall => {
+            User.update({ _id: userId },{ $push : { walls : wall._id } }
+            ).then(() => {
+                console.log("Added user " + userId + " to room " + roomId)
+                res.redirect(`/groups/${roomId}`)
+            })
+        })
+      
     })
 })
 
-// render wish-list page with user's list
+// PRETTY SURE WE DON'T NEED THIS ANYMORE?
+// :::::::::::::::::::::::::::::::::::::::
+// // render wish-list page with user's list
 // router.get("/wishlist:userId", (req, res, next) => {
 //     Wall.find({ownerId: req.user._id }) //will find only the list whose user is the logged-in user.
 //     //.populate("members")
@@ -138,10 +181,10 @@ router.post("/add-user-to-room", (req, res, next) => {
 
 //CREATE A NEW ITEM IN THE WISHLIST AND IN THE DATABASE
 router.post("/process-wishlist-item", (req, res, next) => {
-    const { name, description, pictureUrl, price } = req.body;
-    const owner = req.user._id;
+    const { title, description, pictureUrl, price } = req.body;
+    // const owner = req.user._id;
 
-    Wall.create({ name, description, pictureUrl, price})
+    Wall.create({ title, description, pictureUrl, price})
         .then(() => {
             User.find()
             .then(() => {
