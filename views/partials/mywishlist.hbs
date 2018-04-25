@@ -1,12 +1,12 @@
 
 <h1>MY WISHLIST</h1>
 
-{{#if wall}}
-        <h3>My wishlist</h3>
-        <p>{{wall.wishlist}}</p>
-    {{else}}
+{{#wall.wishlist}}
+    <p>{{this.title}}</p>
+{{/wall.wishlist}}
+    {{!-- {{else}}
         <h3>No items in wishlist yet</h3>
-{{/if}}
+{{/if}} --}}
 <br><br>
 
 <h2>Add an Item</h2>
@@ -35,6 +35,9 @@
         <input type = "number" name = "price"> 
     </label>
     <br />
+    <input type = "hidden" name = "roomId" value = {{roomId}}>
+    <input type = "hidden" name = "userId" value = {{userId}}>
+    <input type = "hidden" name = "wallId" value = {{wall._id}}>
 
 <button>Add</button>
 </form>

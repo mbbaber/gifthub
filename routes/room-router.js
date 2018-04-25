@@ -21,12 +21,19 @@ router.use( ensureLogin.ensureLoggedIn("/") );
 ////// ROUTES
 //////////////////////////////////////////////////////////////////////////////////
 
-// This is my route to individual group page
+// This is my route to individual group page (/:wallUserId)?
 router.get('/groups/:groupId/:userId', (req, res, next) => {
+    var members = [];
+    const currentRoomId = req.params.groupId;
+    const wallUserId = req.params.userId
+    const myUserId = req.user._id.toString(); // Don't know why, but this works...
+
+    const isMyWall = wallUserId == myUserId // hbs doesn't support equal if statements...
+
     Room.findById(req.params.groupId)
         .populate("members")
         .exec()
-        .then(populatedRooms => {
+        .then(room => {
             // // create a list of only ids
             // res.locals.memberList = populatedRooms.members.map(u => u._id)
             // const listOfIds = res.locals.memberList;    
@@ -35,23 +42,47 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
                 
             // // add it to the beginning
             // listOfIds.unshift(req.member._id)
-            res.locals.memberList = populatedRooms.members.map((m) => m.fullName)
-            res.locals.gId = req.params.groupId
-            res.locals.roomId = req.params.groupId
+            const wallUser = room.members.find(m => (m._id == wallUserId)); 
 
+            const myUser = room.members.find(m => (m._id == myUserId)); // pick only the current user
+            members.push({  // move to top
+                name: myUser.fullName,  
+                link: `/groups/${currentRoomId}/${myUserId}`
+            });
 
-        const promises =
-            populatedRooms.members.find(u => u._id == req.params.userId).walls.map(wId => Wall.findById(wId))
+            members = members.concat(
+                room.members
+                    .filter(m => m._id !== myUserId) // remove the current user
+                    .map(function(member){
+                        return {
+                            id: member._id,
+                            name: member.fullName,
+                            roomId: currentRoomId,
+                            link: `/groups/${currentRoomId}/${member._id}`
+                        } 
+                    })
+                )
+
+            const promises = room.members
+                                 .find(u => u._id == wallUserId)
+                                 .walls
+                                 .map(wId => Wall.findById(wId))
+
             Promise.all(promises)
                 .then(walls => {
-                    const currentWall = walls.find(w => w.roomId == req.params.groupId)
-                    console.log(currentWall)
+                    const currentWall = walls.find(w => w.roomId == currentRoomId)
 
                     res.locals.wall = currentWall
+                    res.locals.memberList = members;
+                    res.locals.roomId = currentRoomId;
+                    res.locals.wallUser = wallUser;
+                    res.locals.isMyWall = isMyWall;
+                    res.render('room-views/my-room');
                 })
-            
-        res.render('room-views/my-room');
-    })
+        
+
+
+    }).catch(err => next(err))
 
         // Room.findById(req.params.groupId, "members", (err, room) => {
         //         var promises = room.members.map((m) => 
@@ -72,7 +103,7 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
         //                })      
         //     })
 
-    })
+})
 
 
 
@@ -80,14 +111,20 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
 // render rooms-list page with user's rooms
 router.get("/my-rooms", (req, res, next) => {
     Room.find({members: req.user._id }) //will find only the rooms whose user is the logged-in user.
-    .populate("members")
-    .then((roomsFromDb) => {
-        res.locals.roomList = roomsFromDb;
-        res.render("rooms-list");
-    })
-    .catch((err) => {
-        next(err);
-    })
+        .populate("members")
+        .then((roomsFromDb) => {
+            res.locals.roomList = roomsFromDb.map(function (room) {
+                return { 
+                    name: room.name, 
+                    description: room.description, 
+                    link: `/groups/${room._id}/${req.user._id}`
+                }
+            });
+            res.render("rooms-list");
+        })
+        .catch((err) => {
+            next(err);
+        })
 });
 
 
@@ -141,7 +178,8 @@ router.post('/process-search', (req, res, next) => {
             console.log(searchResults)
             res.locals.searchResults = searchResults;
             res.locals.roomId = roomId;
-            res.render("room-views/my-room", { searchResults, roomId })
+            res.locals.displaySearch = true // just to get back to the search page
+            res.render("room-views/my-room")
             // if you find a name that matches in DB
             //then, print those names and buttons that say (send group invite)and you notify them by email
             //when you click on group invite, they appear in the group and the group appears to them
@@ -151,8 +189,11 @@ router.post('/process-search', (req, res, next) => {
         })
 })
 
+
+// ADD USER IN ROOM
 router.post("/add-user-to-room", (req, res, next) => {
     const { userId, roomId } = req.body;
+    const myUserId = req.user._id;
 
     console.log(req.body)
     Room.update(
@@ -166,11 +207,29 @@ router.post("/add-user-to-room", (req, res, next) => {
             User.update({ _id: userId },{ $push : { walls : wall._id } }
             ).then(() => {
                 console.log("Added user " + userId + " to room " + roomId)
-                res.redirect(`/groups/${roomId}`)
+                res.redirect(`/groups/${roomId}/${myUserId}`)
             })
         })
       
     })
+})
+
+// KICK USER OUT
+router.post("/remove-user-from-room", (req, res, next) => {
+    
+    const { userToDelete, roomId } = req.body;
+    const myUserId = req.user._id;
+    console.log("Removing "+userToDelete+" from room "+roomId)
+    
+    Room.findById(roomId)
+        .then(room => { // Not sure why... https://stackoverflow.com/questions/42474045/mongoose-remove-element-in-array-using-pull
+            room.members.pull({ _id: userToDelete })
+            return room.save()
+        }).then(() => {
+            res.redirect(`/groups/${roomId}/${myUserId}`)
+        }).catch(err => next(err))
+
+    //Delete wall too?
 })
 
 // PRETTY SURE WE DON'T NEED THIS ANYMORE?
@@ -194,25 +253,30 @@ router.post("/add-user-to-room", (req, res, next) => {
 
 //CREATE A NEW ITEM IN THE WISHLIST AND IN THE DATABASE
 router.post("/process-wishlist-item", (req, res, next) => {
-    const { title, description, pictureUrl, price } = req.body;
+    const { title, description, pictureUrl, price, roomId, wallId } = req.body;
+
+    const myUserId = req.user._id
     // const owner = req.user._id;
 
-    Wall.create({ title, description, pictureUrl, price})
+    console.log(req.body)
+    Wall.update({ _id: wallId },
+                { $push : { wishlist: { title, description, pictureUrl, price } } })
         .then(() => {
-            User.find()
-            .then(() => {
-                res.render("room-views/my-room")
-            })
+            res.redirect(`/groups/${roomId}/${myUserId}`)
+
+            // User.find()
+            // .then(() => {
+            //     res.render("room-views/my-room")
+            // })
             //res.locals.roomId = roomId;
             // console.log("success Item created!");
             // //res.redirect(`/groups/${roomId}`);
             // res.render("room-views/my-room")
 
-    
+        })
         .catch((err) => {
             next(err);
         })
-});
 });
             
 

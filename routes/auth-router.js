@@ -47,51 +47,39 @@ router.post("/process-signup", (req, res, next) => {
             console.log("Created user:" + user)
             if (invite) { // If the invite was present, add user to a room
                 console.log("Added user to a room" + invite.roomsList[0] + user)
-                Room.update({ _id: invite.roomsList[0] }, { $push: { members: user } })
-                .then((room) => {
-                    Wall.create({
-                      ownerId: user._id,
-                      roomId: room._id
-                    }).then(wall => {
-                      User.update(
-                        { _id: user._id },
-                        { $push: { walls: wall._id } }
-                      ).then(() => {
-                        console.log(
-                          "Added user " +
-                            userId +
-                            " to room " +
-                            roomId
-                        )
-                        .catch((err) => {
+                Room.update({ _id: invite.roomsList[0] }, 
+                            { $push: { members: user } })
+                    .then((room) => {
+                        Wall.create({
+                            ownerId: user._id,
+                            roomId: room._id
+                        }).then(wall => {
+                            User.update(
+                                { _id: user._id },
+                                { $push: { walls: wall._id } }
+                            ).then(() => {
+                                console.log("Added user " + userId + " to room " +roomId)
+                            }).catch(next)
+                        }).catch((err) => {
                             next(err)
                         })
-                        res.redirect(`/groups/${roomId}`);
-                      });
-                    });
 
-                    req.login(user, () => {
-                      res.redirect("/my-rooms");
+                        // Log the user in after signup  
+                        req.login(user, () => {
+                            res.redirect("/my-rooms");
+                        });
                     });
-                  }
-                );
             } else {
+                // Log the user in after signup  
                 req.login(user, () => {
                     res.redirect("/my-rooms");
                 });
             }
-
-            // Log the user in after signup    
-            
         });
     })
-
-
-
-
 });
 
-//SIGN OUT
+//SIGN IN
 router.post("/process-login", (req, res, next) => {
     const { email, password } = req.body;
 
