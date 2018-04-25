@@ -17,6 +17,8 @@ const Room = require("../models/room-model");
 router.post("/process-signup", (req, res, next) => {
     const { fullName, email, password, confirmationCode } = req.body;
 
+    console.log(req.body)
+
     if (fullName === "") {
         res.render("index", { nameMessage: "The name can't be empty!" });
         return;
@@ -43,17 +45,23 @@ router.post("/process-signup", (req, res, next) => {
         user.save((err, user) => {
             console.log("Created user:" + user)
             if (invite) { // If the invite was present, add user to a room
-                console.log("Added user to a room!")
+                console.log("Added user to a room" + invite.roomsList[0])
                 Room.update(
                     { _id: invite.roomsList[0] }, 
                     { $push : { members : user } } 
-                )
+                ).then(() => {
+                    req.login(user, () => {
+                        res.redirect("/my-rooms");
+                    });
+                })
+            } else {
+                req.login(user, () => {
+                    res.redirect("/my-rooms");
+                });
             }
 
             // Log the user in after signup    
-            req.login(user, () => {
-                res.redirect("/my-rooms");
-            });
+            
         });
     })
 
@@ -207,10 +215,10 @@ router.post('/process-invite/:groupId', (req, res, next) => {
 
 router.get('/confirm/:hashEmail', (req, res, next) => {
     
-    req.logout() // For testing reason mostly, we want to log out from current user
+    //req.logout() // Doesn't work :( For testing reason mostly, we want to log out from current user
 
     res.locals.confirmationCode = req.params.hashEmail
-    res.redirect("/index")
+    res.render("index")
 
 })
 
