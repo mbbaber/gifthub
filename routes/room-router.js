@@ -91,17 +91,19 @@ router.post("/process-room/", (req, res, next) => {
     const members = req.user._id;
     Room.create({ name, description, pictureUrl, members, administratorId })
         .then(( room ) => {
-
-            // CAN WE ACCESS THE DATA OF THE ROOM WE JUST CREATED, WITH THEN'S "ROOM" KEY?
-
-            // Wall.create({
-            //     ownerId: administratorId,
-            //     roomId,
-            // }).then(wall => {
-            //     User.update({ _id: administratorId },{ $push : { walls : wall._id } }
-            //     ).then(() => {
-            //         console.log("Added user " + administratorId + " to room " + roomId)
-            //         res.redirect(`/groups/${roomId}`)
+            Wall.create({
+                ownerId: administratorId,
+                roomId: room._id,
+            })
+            .then(wall => {
+                User.update({ _id: administratorId },{ $push : { walls : wall._id } })
+                .then(() => {
+                    console.log("Added user " + administratorId + " to room " + roomId)
+                    res.redirect(`/groups/${roomId}`)
+                })
+                .catch(( err ) => {
+                    next( err );
+                });
 
 
             console.log("success Room created!");
@@ -109,7 +111,8 @@ router.post("/process-room/", (req, res, next) => {
         })
         .catch((err) => {
             next(err);
-        })
+        });
+    });
 });
 
 
