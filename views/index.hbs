@@ -39,6 +39,13 @@
                 <br><br>
                 {{/if}}
 
+            {{#if confirmationCode}}
+                <p>You have been invited!</p>
+                <input id="confirmationCode" name="confirmationCode" type="hidden" value={{confirmationCode}}>
+            {{/if}}
+            
+            
+
             <button>Let's go!</button>
 
         </form>
