@@ -7,6 +7,7 @@ const ensureLogin    = require( "connect-ensure-login" );
 
 const User           = require("../models/user-model")
 const Room           = require("../models/room-model")
+const Wall           = require("../models/wall-model")
 
 
 ////// MIDDLEWARES
@@ -42,6 +43,7 @@ router.get('/groups/:groupId', (req, res, next) => {
             })
 
     })
+
 
 
 
@@ -104,7 +106,6 @@ router.post('/process-search', (req, res, next) => {
         })
 })
 
-
 router.post("/add-user-to-room", (req, res, next) => {
     const { userId, roomId } = req.body;
 
@@ -118,19 +119,18 @@ router.post("/add-user-to-room", (req, res, next) => {
     })
 })
 
-
 // render wish-list page with user's list
-router.get("/wishlist:userId", (req, res, next) => {
-    Wall.find({ownerId: req.user._id }) //will find only the list whose user is the logged-in user.
-    //.populate("members")
-    .then((wishlistFromDb) => {
-        res.locals.wallList = wishlistFromDb;
-        res.render("room-views/my-wishlist");
-    })
-    .catch((err) => {
-        next(err);
-    })
-});
+// router.get("/wishlist:userId", (req, res, next) => {
+//     Wall.find({ownerId: req.user._id }) //will find only the list whose user is the logged-in user.
+//     //.populate("members")
+//     .then((wishlistFromDb) => {
+//         res.locals.wallList = wishlistFromDb;
+//         res.render("room-views/my-wishlist");
+//     })
+//     .catch((err) => {
+//         next(err);
+//     })
+// });
 
 
 
@@ -140,17 +140,25 @@ router.get("/wishlist:userId", (req, res, next) => {
 router.post("/process-wishlist-item", (req, res, next) => {
     const { name, description, pictureUrl, price } = req.body;
     const owner = req.user._id;
-    
-    Room.create({ name, description, pictureUrl, owner: owner })
+
+    Wall.create({ name, description, pictureUrl, price})
         .then(() => {
-            console.log("success Item created!");
-            res.redirect("room-views/my-wishlist");
-        })
+            User.find()
+            .then(() => {
+                res.render("room-views/my-room")
+            })
+            //res.locals.roomId = roomId;
+            // console.log("success Item created!");
+            // //res.redirect(`/groups/${roomId}`);
+            // res.render("room-views/my-room")
+
+    
         .catch((err) => {
             next(err);
         })
 });
-
+});
+            
 
 
 module.exports = router;

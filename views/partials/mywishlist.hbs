@@ -1,6 +1,13 @@
 
 <h1>MY WISHLIST</h1>
 
+{{#if wishlist}}
+        <h3></h3>
+        <p>{{wishlist.title}}</p>
+    {{else}}
+        <h3>No items in wishlist yet</h3>
+    {{/if}}
+
 <h2>Add an Item</h2>
 
 <form action = "/process-wishlist-item" method = "POST">
