@@ -5,6 +5,7 @@ const passport       = require("passport");
 const router         = express.Router();
 const ensureLogin    = require( "connect-ensure-login" );
 
+const User           = require("../models/user-model")
 const Room           = require("../models/room-model")
 
 
@@ -20,8 +21,26 @@ router.use( ensureLogin.ensureLoggedIn("/") );
 router.get('/groups/:groupId', (req, res, next) => {
     //.then(data => {
         //res.locals.groupArray = data.body.items;
-        res.locals.gId = req.params.groupId
-        res.render('room-views/my-room');
+        console.log(req.params.groupId)
+
+        Room.findById(req.params.groupId, "members", (err, room) => {
+                var promises = room.members.map((m) => 
+                    User.findById(m, "fullName")
+                )
+
+                Promise.all(promises)
+                       .then((users) => {
+                           console.log(users)
+                            res.locals.memberList = users.map((m) => m.fullName)
+                            res.locals.gId = req.params.groupId
+                            res.locals.roomId = req.params.groupId
+                            res.render('room-views/my-room');
+                       })
+                       .catch((err) => {
+                            next(err)
+                       })      
+            })
+
     })
     // .catch(err) => {
     //      console.log("You have an error", err);
@@ -64,6 +83,49 @@ router.post("/process-room/", (req, res, next) => {
             next(err);
         })
 });
+
+
+// //INVITE FRIENDS/PARTICIPANTS
+router.post('/process-search', (req, res, next) => {
+    const { name, roomId } = req.body;
+    console.log(roomId)
+    User.find({fullName : name})
+        .then((users) => {
+            
+            var searchResults = [];
+            users.forEach((u) => {
+                searchResults.push({
+                    userId: u._id,
+                    userName: u.fullName
+                })
+            })
+            console.log(searchResults)
+            res.locals.searchResults = searchResults;
+            res.locals.roomId = roomId;
+            res.render("room-views/my-room", { searchResults, roomId })
+            // if you find a name that matches in DB
+            //then, print those names and buttons that say (send group invite)and you notify them by email
+            //when you click on group invite, they appear in the group and the group appears to them
+        }) 
+        .catch((err) => {
+            next(err);
+        })
+})
+
+
+router.post("/add-user-to-room", (req, res, next) => {
+    const { userId, roomId } = req.body;
+
+    console.log(req.body)
+    Room.update(
+        { _id: roomId }, 
+        { $push : { members : { _id: userId } } }
+    ).then(() => {
+        console.log("Added user " + userId + " to room " + roomId)
+        res.redirect(`/groups/${roomId}`)
+    })
+})
+
 
 // render wish-list page with user's list
 router.get("/wishlist:userId", (req, res, next) => {

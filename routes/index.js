@@ -8,9 +8,8 @@ const passport = require("passport");
 /* GET home page (index.js) */
 router.get('/', (req, res, next) => {
   if( !req.user ) {
-    res.render('index');
-  }
-  else {
+    res.render('index', { confirmationCode : "" });
+  } else {
     res.redirect( "/my-rooms" );
   }
 });
