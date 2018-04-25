@@ -1,27 +1,20 @@
 <div class="room-view-container">
 
-    <div id="sidebar">
         <div id="members-list">
             <ul>
 
-                <!-- PRESENT MEMBER -->
-                <li>
-                    <div id="owner's card" class="member-card">
-                        <img src="" alt="Person's profile pic">
-                        <h3>Person's name</h3>
-                    </div>
-                </li>
-                
                 <!-- DISPLAY EXISTING MEMBERS -->
                 {{#each memberList}}
                     <li>
-                        <div class="member-card">
-                            {{!-- <img src="" alt="Person's profile pic"> --}}
-                            <h3>{{this}}</h3>
-                        </div>
+                        <a href="#">
+                            <div class="member-card">
+                                {{!-- <img src="" alt="Person's profile pic"> --}}
+                                <h3>{{this}}</h3>
+                            </div>
+                        </a>
                     </li>
                 {{/each}}
-                
+
                 <!-- ADD A MEMBER -->
                 <li>
                     <div class="member-card">
@@ -38,21 +31,20 @@
 
         </div>
 
-        {{!-- <img src="" alt="chat button"> --}}
+        <div id="sidebar">
+            {{!-- <img src="#" alt="General chat icon">
+            <img src="#" alt="Most upvoted gift ideas view"> --}}
+        </div>
 
-    </div>
-<h1>MY ROOM</h1>
-<!-- add the name of the group as the title -->
-
-    <div class="wall-zone">
-        {{!-- {{#if isOwnWall}}
-            {{> ownWallPartial}}
-        {{else}}
-            {{> otherWallPartial}}
-        {{/if}} --}}
-    </div>
+        <div id="wall-partial">
+            {{!-- {{> testPartial}} --}}
+        </div>
 
 </div>
+
+
+
+
 
 <div id="abc1" {{#if searchResults}}style="display: block;"{{/if}}>
     <div id="popupContact" class="form-class" >

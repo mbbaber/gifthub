@@ -14,14 +14,14 @@ const Room           = require("../models/room-model")
 
 router.use( ensureLogin.ensureLoggedIn("/") );
 
+
+
+
 ////// ROUTES
 //////////////////////////////////////////////////////////////////////////////////
 
 // This is my route to individual group page
 router.get('/groups/:groupId', (req, res, next) => {
-    //.then(data => {
-        //res.locals.groupArray = data.body.items;
-        console.log(req.params.groupId)
 
         Room.findById(req.params.groupId, "members", (err, room) => {
                 var promises = room.members.map((m) => 
@@ -42,9 +42,8 @@ router.get('/groups/:groupId', (req, res, next) => {
             })
 
     })
-    // .catch(err) => {
-    //      console.log("You have an error", err);
-    // })
+
+
 
 // render rooms-list page with user's rooms
 router.get("/my-rooms", (req, res, next) => {
@@ -59,6 +58,8 @@ router.get("/my-rooms", (req, res, next) => {
     })
 });
 
+
+
 //CREATE A NEW ROOM/GROUP IN THE DATABASE
 router.post("/process-room/", (req, res, next) => {
     const { name, description, pictureUrl } = req.body;
@@ -66,8 +67,6 @@ router.post("/process-room/", (req, res, next) => {
     const administratorId = req.user._id;
     const members = req.user._id;
     Room.create({ name, description, pictureUrl, members, administratorId })
-
-    //if I want to add members, i need to use a mongoose operator... something like $push
 
         .then(() => {
             console.log("success Room created!");
@@ -85,7 +84,6 @@ router.post('/process-search', (req, res, next) => {
     console.log(roomId)
     User.find({fullName : name})
         .then((users) => {
-            
             var searchResults = [];
             users.forEach((u) => {
                 searchResults.push({
@@ -134,12 +132,16 @@ router.get("/wishlist:userId", (req, res, next) => {
     })
 });
 
+
+
+
+
 //CREATE A NEW ITEM IN THE WISHLIST AND IN THE DATABASE
 router.post("/process-wishlist-item", (req, res, next) => {
     const { name, description, pictureUrl, price } = req.body;
     const owner = req.user._id;
+    
     Room.create({ name, description, pictureUrl, owner: owner })
-
         .then(() => {
             console.log("success Item created!");
             res.redirect("room-views/my-wishlist");

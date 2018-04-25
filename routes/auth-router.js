@@ -73,34 +73,22 @@ router.post("/process-signup", (req, res, next) => {
 //SIGN OUT
 router.post("/process-login", (req, res, next) => {
     const { email, password } = req.body;
-    // Je récupère l'email et le password que la personne a rentrés dans les champs, via req.body
 
     User.findOne({ email })
-        // Je demande de fouiller dans la data base "User", et de trouver l'email entré par l'utilisateur (que je viens de récupérer dans la const)
-
         .then((userDetails) => {
-            // if the email doesn't exist in the DB, there won't be an error, userDetails will be falsy
-
             if (!userDetails) {
-                // Here, by "!userDetails", I just check if it's falsy. If it is, I redirect and return.
-
                 res.render("index", { noUserMessage: "Seems like you are not in the database, try signing up first!" });
                 return;
             }
 
             const { encryptedPassword } = userDetails;
-            // I retrieve the "encryptedPassword" variable from the userDetails
 
             if (!bcrypt.compareSync(password, encryptedPassword)) {
-                // Here, I check if the bcrypt "compareSync" method returns true. If not, I redirect to the login page
-
                 res.render("index", { wrongPasswordMessage: "Oops, maybe you mistyped?" });
                 return;
             }
 
             req.login(userDetails, () => {
-                // "req.login()" is Passport's method for logging a user in
-
                 res.redirect("/my-rooms");
             });
 
@@ -113,31 +101,8 @@ router.post("/process-login", (req, res, next) => {
 //LOGOUT
 router.get("/logout", (req, res, next) => {
     req.logout();
-    // "req.logout()" is Passport's method for logging a user out
-
     res.redirect("/");
 });
-
-
-// //ADD A NEW PERSON TO ROOM (will probably embed this into another function)
-// router.post("/process-room", (req, res, next) => {
-//     const { name, email } = req.body;
-//     // roomList - add object in this array with room
-//     const administratorId = req.user._id;
-//     const members = req.user._id;
-//     User.create({name, email })
-
-//     //also need to PUSH member to "members" in group schema
-
-//         .then(() => {
-//             console.log("success person added to room!");
-//             res.redirect("/my-room");
-//         })
-//         .catch((err) => {
-//             next(err);
-//         })
-// });
-
 
 
 

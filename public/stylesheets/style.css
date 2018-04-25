@@ -136,15 +136,23 @@ nav a {
   align-items: center;
   margin: 0 auto; }
 
-#sidebar {
-  flex-direction: row;
-  width: 300px;
-  background: black; }
-
 #members-list {
   flex-direction: column;
-  width: 80%;
-  background: rgba(255, 0, 0, 0.5); }
+  min-width: 250px;
+  max-width: 250px;
+  height: 100%;
+  background: rgba(255, 0, 0, 0.5);
+  padding: 10px 0;
+  overflow: scroll; }
+
+#sidebar {
+  flex-direction: row;
+  min-width: 50px;
+  background: black; }
+
+#wall-partial {
+  height: 100%;
+  width: 100%; }
 
 .member-card {
   width: 100%;
