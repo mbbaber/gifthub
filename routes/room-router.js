@@ -261,19 +261,10 @@ router.post("/process-wishlist-item", (req, res, next) => {
     // const owner = req.user._id;
 
     console.log(req.body)
-    Wall.update({ _id: wallId },
+    Wall.findByIdAndUpdate({ _id: wallId },
                 { $push : { wishlist: { title, description, pictureUrl, price } } })
-        .then(() => {
-            res.redirect(`/groups/${roomId}/${myUserId}`)
-
-            // User.find()
-            // .then(() => {
-            //     res.render("room-views/my-room")
-            // })
-            //res.locals.roomId = roomId;
-            // console.log("success Item created!");
-            // //res.redirect(`/groups/${roomId}`);
-            // res.render("room-views/my-room")
+        .then((wall) => {
+            res.redirect(`/groups/${roomId}/${wall.ownerId}`)
 
         })
         .catch((err) => {
