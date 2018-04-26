@@ -54,8 +54,6 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
                      link: `/groups/${currentRoomId}/${myUserId}`
                  });
                 
-                 //console.log("JSFJSDKFDASKFSDKDSKFSKFK",userId)
-                 console.log("MYMYMYMYMYMYMY",myUserId)
                  members = members.concat(
                      room.members
                          .filter(m => m._id.toString() !== myUserId) // remove the current usern //TODO
@@ -70,16 +68,27 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
                          })
                      )
      
+                     //http://mongoosejs.com/docs/populate.html
                  const promises = room.members
                                       .find(u => u._id == wallUserId)
                                       .walls
-                                      .map(wId => Wall.findById(wId).populate('comments.creator'))
+                                      .map(wId => Wall.findById(wId)
+                                                      .populate([{ path: 'wishlist.claimedBy', 
+                                                                  select:'fullName'},
+                                                                { path: 'comments.creator', 
+                                                                  select:'fullName'}]))
+                                                                //   ,
+                                                                // 'comments.creator'))
      
                  return Promise.all(promises)
                      .then(walls => {
-            
-                         const currentWall = walls.find(w => w.roomId.toString() == currentRoomId)
-     
+                         
+                         
+                         const currentWall = walls.find(w => w.roomId == currentRoomId)
+
+                         if(currentWall.wishlist){
+                            console.log(currentWall)
+                         }
                          res.locals.wall = currentWall
                          res.locals.memberList = members;
                          res.locals.roomId = currentRoomId;
@@ -291,5 +300,34 @@ router.post("/process-comments", (req, res, next) => {
 });
 
 //CLAIM A GIFT AND ADD IN THE DATABASE
+router.post('/process-claim', (req, res, next) => {
+    const { roomId, wallId, item } = req.body;
+    const myUserId = req.user._id
+
+    Wall.findById(wallId)
+        .then((wall) => {
+            console.log(wall)
+            var claimedItem = wall.wishlist.find(i => {
+                console.log(i)
+                console.log(item)
+                // console.log(typeof i.title)
+                // console.log(typeof item)
+                return i.title == item
+            })
+            console.log(wall)
+
+            wall.populate()
+            claimedItem.claimedBy = new User({ _id: myUserId})
+            return wall.save()
+                        
+
+        })
+        .then((wall) => {
+            res.redirect(`/groups/${roomId}/${wall.ownerId}`)
+        })
+        .catch(next)
+
+})
+
 
 module.exports = router;
