@@ -8,11 +8,11 @@
                     <li>
                         <a href={{link}}>
                             <form action="/remove-user-from-room" class="member-card" method="POST">
-                                {{!-- <img src="" alt="Person's profile pic"> --}}
+                                <img src="https://capenetworks.com/static/images/testimonials/user-icon.svg" alt="Person's profile pic">
                                 <h3>{{name}}</h3>
                                 <input type="hidden" name="userToDelete" value={{id}}>
                                 <input type="hidden" name="roomId" value={{roomId}}>
-                                <button>delete {{name}}</button>
+                                {{!-- <button>Delete {{name}}</button> --}}
                             </form>
                         </a>
                     </li>

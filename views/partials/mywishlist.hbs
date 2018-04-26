@@ -1,46 +1,70 @@
 
 <h1>MY WISHLIST</h1>
 
-{{#wall.wishlist}}
-    <p>{{this.title}}</p>
-    
-{{/wall.wishlist}}
-    {{!-- {{else}}
-        <h3>No items in wishlist yet</h3>
-{{/if}} --}}
+<div id="wall-content">
+
+    <div class="wishlist-main-container">
+        <div class="wishlist-itself">
+            {{#wall.wishlist}}
+                {{> wishlistItemPartial}}
+            {{/wall.wishlist}}
+        </div>
+        
+        <div class="wishlist-form">
+            
+            <h2>Add an Item</h2>
+            <form action = "/process-wishlist-item" method = "POST">
+                <div class="wishlist-form-inside">
+
+                    <div class="wishlist-labels">
+                        <label for="wishlist-item-name">Item:</label>
+                        <label for="wishlist-item-description">Description:</label>
+                        <label for="wishlist-item-picture">Picture:</label>
+                        <label for="wishlist-item-price">Price:</label>
+                    </div>
+
+                    <div class="wishlist-inputs">
+                        <input id="wishlist-item-name" type="text" name="title">
+                        <input id="wishlist-item-description" type="text" name="description">
+                        <input id="wishlist-item-picture"type = "text" name = "pictureUrl">
+                        <input id="wishlist-item-price" type="number" name="price">
+                    </div>
+
+                </div>
+
+                <input type = "hidden" name = "roomId" value = {{roomId}}>
+                <input type = "hidden" name = "userId" value = {{userId}}>
+                <input type = "hidden" name = "wallId" value = {{wall._id}}>
+
+                <button>Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="comments-main-container">
+
+        <div class="comments-itself">
+            {{#wall.comments}}
+                {{> wishlistCommentPartial}}
+            {{/wall.comments}}
+        </div>
+
+        <div class="comments-form">
+
+            <h2>Add a comment</h2>
+            <form action = "/process-wishlist-comment" method="POST">
+                <label for="wall-comment-message">Message:</label><br><br>
+                <textarea id="wall-comment-message" type="text" name="message"></textarea><br><br>
+
+                <input type = "hidden" name = "roomId" value = {{roomId}}>
+                <input type = "hidden" name = "userId" value = {{userId}}>
+                <input type = "hidden" name = "wallId" value = {{wall._id}}>
+
+                <button>Add</button>
+
+        </div>
+
+    </div>
+
+</div>
 <br><br>
-
-
-<h2>Add an Item</h2>
-
-<form action = "/process-wishlist-item" method = "POST">
-    <label>
-        Item:
-        <input type = "text" name = "title"> 
-    </label>
-    <br />
-
-    <label>
-        Description:
-        <input type = "text" name = "description"> 
-    </label>
-    <br />
-
-    <label>
-        Picture:
-        <input type = "text" name = "pictureUrl"> 
-    </label>
-    <br />
-
-    <label>
-        Price:
-        <input type = "number" name = "price"> 
-    </label>
-    <br />
-    <input type = "hidden" name = "roomId" value = {{roomId}}>
-    <input type = "hidden" name = "userId" value = {{userId}}>
-    <input type = "hidden" name = "wallId" value = {{wall._id}}>
-
-<button>Add</button>
-</form>
-

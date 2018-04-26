@@ -123,6 +123,7 @@ router.get("/my-rooms", (req, res, next) => {
         .catch((err) => {
             next(err);
         })
+
 });
 
 //CREATE A NEW ROOM/GROUP IN THE DATABASE
