@@ -1,34 +1,49 @@
 
 <h1>{{wallUser.fullName}}'s WISHLIST</h1>
 
+<<<<<<< HEAD
 <div id="wall-content">
 
-        <div class="wishlist-main-container">
-            <div class="wishlist-itself">
-                {{#wall.wishlist}}
-                    {{> wishlistItemPartial}}
-                {{/wall.wishlist}}
-            </div>
+{{#wall.wishlist}}
+    <span>{{this.title}} 
+        {{#if this.claimedBy}}
+            <p>Claimed by {{this.claimedBy.fullName}}</p>
+        {{else}}
+        <form action="/process-claim" method= "POST">
+            <input type="hidden" name="wallId" value={{../wallId}}>
+            <input type="hidden" name="item" value={{this.title}}>
+            <button>Claim</button>
+        </form>
+        {{/if}}
+    </span>
+{{/wall.wishlist}}
+   
+<br><br>
+    {{#wall.comments}}
+    <p> {{this.creator.fullName}} says: </p>
+    {{this.message}}<br/><br>
+    {{/wall.comments}}
+
+    <div class="wishlist-main-container">
+        <div class="wishlist-itself">
+            {{#wall.wishlist}}
+                {{> wishlistItemPartial}}
+            {{/wall.wishlist}}
+        </div>
+        
+        <div class="wishlist-form">
             
-            <div class="wishlist-form">
-                
-                <h2>Add an Item</h2>
-                <form action = "/process-wishlist-item" method="POST">
-                    <div class="wishlist-form-inside">
+            <h2>Add an Item</h2>
+            <form action="/process-wishlist-item" method="POST">
+                <div class="wishlist-form-inside">
 
-                        <div class="wishlist-labels">
-                            <label for="wishlist-item-name">Item:</label>
-                            <label for="wishlist-item-description">Description:</label>
-                            <label for="wishlist-item-picture">Picture:</label>
-                            <label for="wishlist-item-price">Price:</label>
-                        </div>
-
-                        <div class="wishlist-inputs">
-                            <input id="wishlist-item-name" type="text" name="title">
-                            <input id="wishlist-item-description" type="text" name="description">
-                            <input id="wishlist-item-picture"type = "text" name = "pictureUrl">
-                            <input id="wishlist-item-price" type="number" name="price">
-                        </div>
+                    <div class="wishlist-labels">
+                        <label for="wishlist-item-name">Item:</label>
+                        <label for="wishlist-item-description">Description:</label>
+                        <label for="wishlist-item-picture">Picture:</label>
+                        <label for="wishlist-item-price">Price:</label>
+                    </div>
+>>>>>>> 8ea7164d32253cebfa3aa2a7f629b1cd87e9536c
 
                     </div>
 

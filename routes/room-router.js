@@ -272,6 +272,7 @@ router.post("/process-wishlist-item", (req, res, next) => {
         })
 });
 
+
 //CREATE A NEW ITEM IN THE COMMENTS AND IN THE DATABASE
 router.post("/process-comments", (req, res, next) => {
     const { creator, message, roomId, wallId, userId } = req.body;
