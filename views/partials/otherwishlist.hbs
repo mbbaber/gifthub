@@ -1,7 +1,16 @@
 <h1>{{wallUser.fullName}}'s WISHLIST</h1>
 
+{{#wall.wishlist}}
+    <span><p>{{this.title}}</p> <button>Claim</button></span>
 
-<div id="wall-content">
+{{/wall.wishlist}}
+   
+<br><br>
+    {{#wall.comments}}
+    <p> says: </p>
+    {{this.message}} <br/><br>
+       
+    {{/wall.comments}}
 
     <div class="wishlist-main-container">
         <div class="wishlist-itself">
@@ -51,17 +60,22 @@
 
         <div class="comments-form">
 
-            <h2>Add a comment</h2>
-            <form action = "/process-wishlist-comment" method="POST">
-                <label for="wall-comment-message">Message:</label><br><br>
-                <textarea id="wall-comment-message" type="text" name="message"></textarea><br><br>
+            <h2>Add a Comment</h2>
+                <form action = "/process-comments" method = "POST">
 
-                <input type = "hidden" name = "roomId" value = {{roomId}}>
-                <input type = "hidden" name = "userId" value = {{userId}}>
-                <input type = "hidden" name = "wallId" value = {{wall._id}}>
+                    <label>
+                        Your comment:
+                        <input type = "text" name = "message"> 
+                    </label>
+                    <br />
+
+                    <input type="hidden" name = "roomId" value = {{roomId}}>
+                    <input type="hidden" name = "userId" value = {{userId}}>
+                    <input type="hidden" name = "wallId" value = {{wall._id}}>
 
                 <button>Add</button>
-
+            </form>
+            
         </div>
 
     </div>
