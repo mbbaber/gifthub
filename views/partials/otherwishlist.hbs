@@ -1,82 +1,85 @@
+
 <h1>{{wallUser.fullName}}'s WISHLIST</h1>
 
-{{#wall.wishlist}}
-    <span><p>{{this.title}}</p> <button>Claim</button></span>
-{{/wall.wishlist}}
-   
-<br><br>
-    {{#wall.comments}}
-    <p> {{this.creator.fullName}} says: </p>
-    {{this.message}}<br/><br>
-    {{/wall.comments}}
+<div id="wall-content">
 
-    <div class="wishlist-main-container">
-        <div class="wishlist-itself">
-            {{#wall.wishlist}}
-                {{> wishlistItemPartial}}
-            {{/wall.wishlist}}
-        </div>
-        
-        <div class="wishlist-form">
+        <div class="wishlist-main-container">
+            <div class="wishlist-itself">
+                {{#wall.wishlist}}
+                    {{> wishlistItemPartial}}
+                {{/wall.wishlist}}
+            </div>
             
-            <h2>Add an Item</h2>
-            <form action = "/process-wishlist-item" method="POST">
-                <div class="wishlist-form-inside">
+            <div class="wishlist-form">
+                
+                <h2>Add an Item</h2>
+                <form action = "/process-wishlist-item" method="POST">
+                    <div class="wishlist-form-inside">
 
-                    <div class="wishlist-labels">
-                        <label for="wishlist-item-name">Item:</label>
-                        <label for="wishlist-item-description">Description:</label>
-                        <label for="wishlist-item-picture">Picture:</label>
-                        <label for="wishlist-item-price">Price:</label>
+                        <div class="wishlist-labels">
+                            <label for="wishlist-item-name">Item:</label>
+                            <label for="wishlist-item-description">Description:</label>
+                            <label for="wishlist-item-picture">Picture:</label>
+                            <label for="wishlist-item-price">Price:</label>
+                        </div>
+
+                        <div class="wishlist-inputs">
+                            <input id="wishlist-item-name" type="text" name="title">
+                            <input id="wishlist-item-description" type="text" name="description">
+                            <input id="wishlist-item-picture"type = "text" name = "pictureUrl">
+                            <input id="wishlist-item-price" type="number" name="price">
+                        </div>
+
                     </div>
 
-                    <div class="wishlist-inputs">
-                        <input id="wishlist-item-name" type="text" name="title">
-                        <input id="wishlist-item-description" type="text" name="description">
-                        <input id="wishlist-item-picture"type = "text" name = "pictureUrl">
-                        <input id="wishlist-item-price" type="number" name="price">
-                    </div>
+                    <input type = "hidden" name = "roomId" value = {{roomId}}>
+                    <input type = "hidden" name = "userId" value = {{userId}}>
+                    <input type = "hidden" name = "wallId" value = {{wall._id}}>
 
-                </div>
-
-                <input type = "hidden" name = "roomId" value = {{roomId}}>
-                <input type = "hidden" name = "userId" value = {{userId}}>
-                <input type = "hidden" name = "wallId" value = {{wall._id}}>
-
-                <button>Add</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="comments-main-container">
-
-        <div class="comments-itself">
-            {{#wall.comments}}
-                {{this.message}}
-            {{/wall.comments}}
+                    <button>Add</button>
+                </form>
+            </div>
         </div>
 
-        <div class="comments-form">
+        <div class="comments-main-container">
 
-            <h2>Add a Comment</h2>
-                <form action = "/process-comments" method = "POST">
+            <div class="comments-itself">
+                {{#wall.comments}}
+                    <p> {{this.creator.fullName}} says: </p>
+                    {{this.message}}<br/><br>
+                {{/wall.comments}}
+            </div>
 
-                    <label>
-                        Your comment:
-                        <input type = "text" name = "message"> 
-                    </label>
-                    <br />
+            <div class="comments-form">
 
-                    <input type="hidden" name = "roomId" value = {{roomId}}>
-                    <input type="hidden" name = "userId" value = {{userId}}>
-                    <input type="hidden" name = "wallId" value = {{wall._id}}>
+                <h2>Add a Comment</h2>
+                    <form action = "/process-comments" method = "POST">
 
-                <button>Add</button>
-            </form>
-            
+                        <label>
+                            Your comment:
+                            <input type = "text" name = "message"> 
+                        </label>
+                        <br />
+
+                        <input type="hidden" name = "roomId" value = {{roomId}}>
+                        <input type="hidden" name = "userId" value = {{userId}}>
+                        <input type="hidden" name = "wallId" value = {{wall._id}}>
+
+                    <button>Add</button>
+                </form>
+                
+            </div>
+
         </div>
 
-    </div>
+        {{!-- {{#wall.wishlist}}
+            <span><p>{{this.title}}</p> <button>Claim</button></span>
+        {{/wall.wishlist}} --}}
+    
+
+        {{!-- {{#wall.comments}}
+        <p> {{this.creator.fullName}} says: </p>
+        {{this.message}}<br/><br>
+        {{/wall.comments}} --}}
 
 </div>
-<br><br>
