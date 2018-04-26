@@ -52,7 +52,7 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
 
             members = members.concat(
                 room.members
-                    .filter(m => m._id !== myUserId) // remove the current user
+                    .filter(m => m._id !== myUserId) // remove the current usern //TODO
                     .map(function(member){
                         return {
                             id: member._id,
@@ -77,10 +77,11 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
                     res.locals.roomId = currentRoomId;
                     res.locals.wallUser = wallUser;
                     res.locals.isMyWall = isMyWall;
+                    res.locals.userId = req.user._id
+            
+                    console.log(res.locals.wall, "WALL")
                     res.render('room-views/my-room');
                 })
-        
-
 
     }).catch(err => next(err))
 
@@ -105,9 +106,6 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
 
 })
 
-
-
-
 // render rooms-list page with user's rooms
 router.get("/my-rooms", (req, res, next) => {
     Room.find({members: req.user._id }) //will find only the rooms whose user is the logged-in user.
@@ -126,8 +124,6 @@ router.get("/my-rooms", (req, res, next) => {
             next(err);
         })
 });
-
-
 
 //CREATE A NEW ROOM/GROUP IN THE DATABASE
 router.post("/process-room/", (req, res, next) => {
@@ -272,6 +268,24 @@ router.post("/process-wishlist-item", (req, res, next) => {
             // console.log("success Item created!");
             // //res.redirect(`/groups/${roomId}`);
             // res.render("room-views/my-room")
+
+        })
+        .catch((err) => {
+            next(err);
+        })
+});
+
+//CREATE A NEW ITEM IN THE COMMENTS AND IN THE DATABASE - CURRENTLY IN PROGRESS (mb)
+router.post("/process-comments", (req, res, next) => {
+    const { creator, message, roomId, wallId, userId } = req.body;
+
+    const myUserId = req.user._id
+    // const owner = req.user._id;
+    console.log(req.body)
+    Wall.update({ _id: wallId },
+                { $push : { comments: { creator: userId, message } } })
+                .then(() => {
+            res.redirect(`/groups/${roomId}/${myUserId}`)
 
         })
         .catch((err) => {

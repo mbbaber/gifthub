@@ -4,7 +4,28 @@
     <span><p>{{this.title}}</p> <button>Claim</button></span>
 
 {{/wall.wishlist}}
-    {{!-- {{else}}
-        <h3>No items in wishlist yet</h3>
-{{/if}} --}}
+   
 <br><br>
+    {{#wall.comments}}
+    <p> says: </p>
+    {{this.message}} <br/>
+       
+    {{/wall.comments}}
+
+   
+
+<h2>Add a Comment</h2>
+<form action = "/process-comments" method = "POST">
+
+    <label>
+        Your comment:
+        <input type = "text" name = "message"> 
+    </label>
+    <br />
+
+    <input type="hidden" name = "roomId" value = {{roomId}}>
+    <input type="hidden" name = "userId" value = {{userId}}>
+    <input type="hidden" name = "wallId" value = {{wall._id}}>
+
+<button>Add</button>
+</form>
