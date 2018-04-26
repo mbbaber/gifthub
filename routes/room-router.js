@@ -44,26 +44,27 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
                  // // add it to the beginning
                  // listOfIds.unshift(req.member._id)
                  const isAdmin = adminId == myUserId
-                 console.log("Admin:" ,adminId)
-                 console.log("User:" ,myUserId)
-                 console.log("isAdmin:", isAdmin)
                  
                  const wallUser = room.members.find(m => (m._id.toString() == wallUserId)); 
      
                  const myUser = room.members.find(m => (m._id.toString() == myUserId)); // pick only the current user
                  members.push({  // move to top
                      name: myUser.fullName,  
+                     isNormalUser: false,
                      link: `/groups/${currentRoomId}/${myUserId}`
                  });
-     
+                
+                 //console.log("JSFJSDKFDASKFSDKDSKFSKFK",userId)
+                 console.log("MYMYMYMYMYMYMY",myUserId)
                  members = members.concat(
                      room.members
-                         .filter(m => m._id !== myUserId) // remove the current usern //TODO
+                         .filter(m => m._id.toString() !== myUserId) // remove the current usern //TODO
                          .map(function(member){
                              return {
                                  id: member._id,
                                  name: member.fullName,
                                  roomId: currentRoomId,
+                                 isNormalUser: true,
                                  link: `/groups/${currentRoomId}/${member._id}`
                              } 
                          })
@@ -76,7 +77,7 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
      
                  return Promise.all(promises)
                      .then(walls => {
-                         console.log(walls)
+            
                          const currentWall = walls.find(w => w.roomId.toString() == currentRoomId)
      
                          res.locals.wall = currentWall
@@ -91,9 +92,6 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
                      })
         })
     // need to find admin Id
-
-
-    
 
     }).catch(err => next(err))
 
@@ -197,7 +195,6 @@ router.post('/process-search', (req, res, next) => {
         })
 })
 
-
 // ADD USER IN ROOM
 router.post("/add-user-to-room", (req, res, next) => {
     const { userId, roomId } = req.body;
@@ -231,7 +228,7 @@ router.post("/remove-user-from-room", (req, res, next) => {
     
     Room.findById(roomId)
         .then(room => { // Not sure why... https://stackoverflow.com/questions/42474045/mongoose-remove-element-in-array-using-pull
-            room.members.pull({ _id: userToDelete })
+            room.members.pull(userToDelete)
             return room.save()
         }).then(() => {
             res.redirect(`/groups/${roomId}/${myUserId}`)
@@ -284,7 +281,7 @@ router.post("/process-wishlist-item", (req, res, next) => {
         })
 });
 
-//CREATE A NEW ITEM IN THE COMMENTS AND IN THE DATABASE - CURRENTLY IN PROGRESS (mb)
+//CREATE A NEW ITEM IN THE COMMENTS AND IN THE DATABASE
 router.post("/process-comments", (req, res, next) => {
     const { creator, message, roomId, wallId, userId } = req.body;
 
@@ -295,13 +292,12 @@ router.post("/process-comments", (req, res, next) => {
                 { $push : { comments: { creator: userId, message } } })
                 .then((wall) => {
             res.redirect(`/groups/${roomId}/${wall.ownerId}`)
-
         })
         .catch((err) => {
             next(err);
         })
 });
-            
 
+//CLAIM A GIFT AND ADD IN THE DATABASE
 
 module.exports = router;

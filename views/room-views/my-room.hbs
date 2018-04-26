@@ -10,10 +10,12 @@
                             <form action="/remove-user-from-room" class="member-card" method="POST">
                                 <img src="https://capenetworks.com/static/images/testimonials/user-icon.svg" alt="Person's profile pic">
                                 <h3>{{name}}</h3>
-                                <input type="hidden" name="userToDelete" value={{../userId}}>
-                                <input type="hidden" name="roomId" value={{../roomId}}>
+                                <input type="hidden" name="userToDelete" value={{id}}> <!-- {{../userId}} -->
+                                <input type="hidden" name="roomId" value={{roomId}}> <!--{{../roomId}} -->
                                 {{#if ../isAdmin}}
-                                <button>Delete</button>
+                                {{#if isNormalUser}}
+                                    <button>Delete</button>
+                                {{/if}}
                                 {{/if}}
                             </form>
                         </a>
@@ -21,17 +23,21 @@
                 {{/memberList}}
 
                 <!-- ADD A MEMBER -->
+                {{#if isAdmin}}
                 <li>
                     <div class="member-card">
+
+
                         <button class="popup" onclick="div_show1()">Search for Participants</button>
                         <button class="popup" onclick="div_show2()">Invite Participants</button>
+                    
 
                         {{#if message}}
                             <p>{{message}}</p>
                         {{/if}}
                     </div>
                 </li>
-
+{{/if}}
             </ul>
 
         </div>
@@ -48,11 +54,7 @@
             {{> otherwishlist}}
         {{/if}}
     </div>
-
 </div>
-
-
-
 
 <!-- POP UP BOXES -->
 <div id="abc1" {{#if displaySearch}}style="display: block;"{{/if}}>
