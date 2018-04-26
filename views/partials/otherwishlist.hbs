@@ -2,14 +2,12 @@
 
 {{#wall.wishlist}}
     <span><p>{{this.title}}</p> <button>Claim</button></span>
-
 {{/wall.wishlist}}
    
 <br><br>
     {{#wall.comments}}
     <p> {{this.creator.fullName}} says: </p>
-    {{this.message}} <br/><br>
-       
+    {{this.message}}<br/><br>
     {{/wall.comments}}
 
     <div class="wishlist-main-container">
@@ -22,7 +20,7 @@
         <div class="wishlist-form">
             
             <h2>Add an Item</h2>
-            <form action = "/process-wishlist-item" method = "POST">
+            <form action = "/process-wishlist-item" method="POST">
                 <div class="wishlist-form-inside">
 
                     <div class="wishlist-labels">

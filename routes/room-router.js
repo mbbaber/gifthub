@@ -289,8 +289,8 @@ router.post("/process-comments", (req, res, next) => {
     // const owner = req.user._id;
     console.log(req.body)
     Wall.findByIdAndUpdate({ _id: wallId },
-                { $push : { comments: { creator: userId, message } } })
-                .then((wall) => {
+        { $push : { comments: { creator: userId, message } } })
+        .then((wall) => {
             res.redirect(`/groups/${roomId}/${wall.ownerId}`)
         })
         .catch((err) => {

@@ -41,6 +41,30 @@
         </div>
     </div>
 
+    {{!-- <div class="comments-main-container">
+
+        <div class="comments-itself">
+            {{#wall.comments}}
+                {{this.message}}
+            {{/wall.comments}}
+        </div>
+
+        <div class="comments-form">
+
+            <h2>Add a comment</h2>
+            <form action = "/process-wishlist-comment" method="POST">
+                <label for="wall-comment-message">Message:</label><br><br>
+                <textarea id="wall-comment-message" type="text" name="message"></textarea><br><br>
+
+                <input type = "hidden" name = "roomId" value = {{roomId}}>
+                <input type = "hidden" name = "userId" value = {{userId}}>
+                <input type = "hidden" name = "wallId" value = {{wall._id}}>
+
+                <button>Add</button>
+
+        </div>
+
+    </div> --}}
 
 </div>
 <br><br>
