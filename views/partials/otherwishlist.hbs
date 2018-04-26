@@ -1,7 +1,17 @@
 <h1>{{wallUser.fullName}}'s WISHLIST</h1>
 
 {{#wall.wishlist}}
-    <span><p>{{this.title}}</p> <button>Claim</button></span>
+    <span>{{this.title}} 
+        {{#if this.claimedBy}}
+            <p>Claimed by {{this.claimedBy.fullName}}</p>
+        {{else}}
+        <form action="/process-claim" method= "POST">
+            <input type="hidden" name="wallId" value={{../wallId}}>
+            <input type="hidden" name="item" value={{this.title}}>
+            <button>Claim</button>
+        </form>
+        {{/if}}
+    </span>
 {{/wall.wishlist}}
    
 <br><br>
@@ -20,7 +30,7 @@
         <div class="wishlist-form">
             
             <h2>Add an Item</h2>
-            <form action = "/process-wishlist-item" method="POST">
+            <form action="/process-wishlist-item" method="POST">
                 <div class="wishlist-form-inside">
 
                     <div class="wishlist-labels">

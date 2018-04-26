@@ -25,7 +25,11 @@ const wallSchema = new Schema({
             title: { type: String, required: true },
             pictureUrl: String,
             description: String,
-            price: Number
+            price: Number,
+            claimedBy: { 
+                type: Schema.Types.ObjectId,
+                ref: "User"
+            }
         }
     ]
 })
