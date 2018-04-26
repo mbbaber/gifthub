@@ -14,7 +14,7 @@
                                 <input type="hidden" name="roomId" value={{roomId}}> <!--{{../roomId}} -->
                                 {{#if ../isAdmin}}
                                     {{#if isNormalUser}}
-                                        <button>Delete</button>
+                                        <button>X</button>
                                     {{/if}}
                                 {{/if}}
                             </form>
@@ -25,12 +25,14 @@
                 <!-- ADD A MEMBER -->
                 {{#if isAdmin}}
                     <li>
-                        <div class="member-card">
-
-
-                            <button class="popup" onclick="div_show1()">Search for Participants</button>
-                            <button class="popup" onclick="div_show2()">Invite Participants</button>
-                        
+                        <div id="invite-card" class="member-card">
+                            
+                            <h3>Invite someone!</h3>
+                            
+                            <div>
+                                <button class="popup" onclick="div_show1()">🔎</button>
+                                <button class="popup" onclick="div_show2()">✉️</button>
+                            </div>
 
                             {{#if message}}
                                 <p>{{message}}</p>

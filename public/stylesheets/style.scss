@@ -192,8 +192,8 @@ nav a {
   min-width: 250px;
   max-width: 250px;
   height: 100%;
-  background: rgba( 255, 0, 0, 0.5 );
-  padding: 10px 0;
+  background: rgb(231, 231, 231);
+  padding: 10px;
   overflow: scroll;
 }
 
@@ -202,10 +202,15 @@ nav a {
   height: 80px;
   display: flex;
   align-items: center;
-  background-color: blue;
+  background-color: white;
   border-radius: 10px;
   margin-bottom: 10px;
   padding: 20px;
+}
+
+.member-card h3 {
+  color: rgb(65, 65, 65);
+  margin-right: auto;
 }
 
 .member-card img {
@@ -214,11 +219,29 @@ nav a {
   margin-right: 20px;
 }
 
+#invite-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: darkturquoise;
+  padding: 5px 10px;
+}
+
+#invite-card > div {
+  display: flex;
+}
+
+button.popup {
+  padding: 6px 5px 5px 9px;
+  border-radius: 3px;
+  border: 1px solid darkturquoise;
+  margin: 10px 10px 0 0;
+}
 
 #sidebar {
   flex-direction: row;
   min-width: 50px;
-  background: black;
+  background: rgb(231, 231, 231);
 }
 
 #wall-partial {
@@ -239,64 +262,75 @@ nav a {
 .wishlist-main-container,
 .comments-main-container {
   width: 350px;
-  height: 550px;
-  background: black;
+  height: 600px;
+  // background: rgb(231, 231, 231);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   margin-bottom: 50px;
 }
 
 .wishlist-itself,
 .comments-itself {
   width: 350px;
-  height: 300px;
-  margin-bottom: 40px;
   overflow: scroll;
+}
+
+.wishlist-form,
+.comments-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+#wishlist-input,
+.wishlist-form button,
+#comments-input,
+.comments-form button {
+  height: 40px;
+  border-radius: 5px;
+  color: rgb(65, 65, 65);
+  margin-bottom: 14px;
+  padding: 0 20px;
+}
+
+#wishlist-input,
+#comments-input {
+  width: 82%;
+}
+
+.wishlist-form button,
+.comments-form button {
+  width: 15%;
+  font-size: 1.5em;
+  padding: 2px 0 0 0;
 }
 
 .wishlist-item-card {
   width: 100%;
   height: 40px;
-  background-color: blue;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
   border-radius: 5px;
-  margin-bottom: 5px;
-  line-height: 40px;
-  padding-left: 20px;
+  border-left: 6px solid darkturquoise;
+  color: rgb(65, 65, 65);
+  margin-bottom: 7px;
+  padding: 0 20px;
 }
 
-.wishlist-item-card img {
-  width: 20px;
-  height: 20px;
+.wishlist-item-card button,
+.wishlist-item-card form {
+  width: 55px;
+  height: 25px;
+  padding: 0;
+  border-radius: 5px;
+  color: darkturquoise;
+  border: 1px solid darkturquoise;
 }
 
 .wishlist-form,
 .comments-form {
-  width: 350px;
-  min-height: 250px;
-  background: red;
-  padding: 20px;
-}
-
-.wishlist-form h2,
-.comments-form h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.wishlist-form-inside {
-  display: flex;
-  justify-content: space-between;
-  width: 280px;
-  margin-bottom: 20px;
-}
-
-.wishlist-labels,
-.wishlist-inputs {
-  height: 130px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  width: 100%;
 }
 
 #wall-comment-message {

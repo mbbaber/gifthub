@@ -1,101 +1,81 @@
 
 <h1>{{wallUser.fullName}}'s WISHLIST</h1>
 
-<<<<<<< HEAD
-<div id="wall-content">
 
-{{#wall.wishlist}}
-    <span>{{this.title}} 
-        {{#if this.claimedBy}}
-            <p>Claimed by {{this.claimedBy.fullName}}</p>
-        {{else}}
-        <form action="/process-claim" method= "POST">
-            <input type="hidden" name="wallId" value={{../wall._id}}>
-            <input type="hidden" name="item" value="{{this.title}}">
-            <input type="hidden" name="roomId" value={{../roomId}}>
-            <button>Claim</button>
-        </form>
-        {{/if}}
-    </span>
-{{/wall.wishlist}}
-   
-<br><br>
-    {{#wall.comments}}
-    <p> {{this.creator.fullName}} says: </p>
-    {{this.message}}<br/><br>
-    {{/wall.comments}}
+<div id="wall-content">   
+
+
 
     <div class="wishlist-main-container">
-        <div class="wishlist-itself">
-            {{#wall.wishlist}}
-                {{> wishlistItemPartial}}
-            {{/wall.wishlist}}
-        </div>
-        
-        <div class="wishlist-form">
             
-            <h2>Add an Item</h2>
             <form action="/process-wishlist-item" method="POST">
-                <div class="wishlist-form-inside">
 
-                    <div class="wishlist-labels">
-                        <label for="wishlist-item-name">Item:</label>
-                        <label for="wishlist-item-description">Description:</label>
-                        <label for="wishlist-item-picture">Picture:</label>
-                        <label for="wishlist-item-price">Price:</label>
-                    </div>
->>>>>>> 8ea7164d32253cebfa3aa2a7f629b1cd87e9536c
-
-                    </div>
+                <div class="wishlist-form">
+                
+                    <input id="wishlist-input" type="text" name="title" placeholder="Gift ideas?>
 
                     <input type = "hidden" name = "roomId" value = {{roomId}}>
                     <input type = "hidden" name = "userId" value = {{userId}}>
                     <input type = "hidden" name = "wallId" value = {{wall._id}}>
 
-                    <button>Add</button>
-                </form>
-            </div>
+                    <button>➕</button>
+
+                </div>
+                
+            </form>
+            
+
+        <div class="wishlist-itself">
+            {{#wall.wishlist}}
+
+                <span>
+                    <div class="wishlist-item-card">
+
+                        <p><a href="#">❤️</a> {{this.title}}</p>
+
+                        {{#if this.claimedBy}}
+                            <p>Claimed by {{this.claimedBy.fullName}}</p>
+                        {{else}}
+                        <form action="/process-claim" method= "POST">
+                            <input type="hidden" name="wallId" value={{../wall._id}}>
+                            <input type="hidden" name="item" value="{{this.title}}">
+                            <input type="hidden" name="roomId" value={{../roomId}}>
+                            <button>Claim</button>
+                        </form>
+                        {{/if}}
+
+                    </div>
+
+                </span>
+            {{/wall.wishlist}}
         </div>
+
+    </div>
 
         <div class="comments-main-container">
 
-            <div class="comments-itself">
-                {{#wall.comments}}
-                    <p> {{this.creator.fullName}} says: </p>
-                    {{this.message}}<br/><br>
-                {{/wall.comments}}
-            </div>
-
             <div class="comments-form">
 
-                <h2>Add a Comment</h2>
                     <form action = "/process-comments" method = "POST">
 
-                        <label>
-                            Your comment:
-                            <input type = "text" name = "message"> 
-                        </label>
-                        <br />
+                        <input id="comments-input" type="text" name="message" placeholder="Any comments?">
 
                         <input type="hidden" name = "roomId" value = {{roomId}}>
                         <input type="hidden" name = "userId" value = {{userId}}>
                         <input type="hidden" name = "wallId" value = {{wall._id}}>
 
-                    <button>Add</button>
+                    <button>➕</button>
                 </form>
                 
             </div>
 
+            <div class="comments-itself">
+                {{#wall.comments}}
+                    <p> {{this.creator.fullName}} says: </p>
+                    {{this.message}}
+                {{/wall.comments}}
+            </div>
+
         </div>
-
-        {{!-- {{#wall.wishlist}}
-            <span><p>{{this.title}}</p> <button>Claim</button></span>
-        {{/wall.wishlist}} --}}
-    
-
-        {{!-- {{#wall.comments}}
-        <p> {{this.creator.fullName}} says: </p>
-        {{this.message}}<br/><br>
-        {{/wall.comments}} --}}
 
 </div>
