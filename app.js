@@ -21,7 +21,7 @@ const flash = require('flash');
 
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/gifthub', {useMongoClient: true})
+  .connect(process.env.MONGODB_URI, {useMongoClient: true})
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
