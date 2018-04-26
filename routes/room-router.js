@@ -15,9 +15,6 @@ const Wall           = require("../models/wall-model")
 
 router.use( ensureLogin.ensureLoggedIn("/") );
 
-
-
-
 ////// ROUTES
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -29,59 +26,74 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
     const myUserId = req.user._id.toString(); // Don't know why, but this works...
 
     const isMyWall = wallUserId == myUserId // hbs doesn't support equal if statements...
+    //const adminId = room.administratorId;
 
     Room.findById(req.params.groupId)
-        .populate("members")
-        .exec()
         .then(room => {
-            // // create a list of only ids
-            // res.locals.memberList = populatedRooms.members.map(u => u._id)
-            // const listOfIds = res.locals.memberList;    
-            // // remove current user's id
-            // listOfIds.splice(members.indexOf(req.member._id), 1)
-                
-            // // add it to the beginning
-            // listOfIds.unshift(req.member._id)
-            const wallUser = room.members.find(m => (m._id == wallUserId)); 
+             const adminId = room.administratorId.toString();
+             return Room.findById(req.params.groupId)
+             .populate("members")
+             .exec()
+             .then(room => {
+                 // // create a list of only ids
+                 // res.locals.memberList = populatedRooms.members.map(u => u._id)
+                 // const listOfIds = res.locals.memberList;    
+                 // // remove current user's id
+                 // listOfIds.splice(members.indexOf(req.member._id), 1)
+                     
+                 // // add it to the beginning
+                 // listOfIds.unshift(req.member._id)
+                 const isAdmin = adminId == myUserId
+                 console.log("Admin:" ,adminId)
+                 console.log("User:" ,myUserId)
+                 console.log("isAdmin:", isAdmin)
+                 
+                 const wallUser = room.members.find(m => (m._id.toString() == wallUserId)); 
+     
+                 const myUser = room.members.find(m => (m._id.toString() == myUserId)); // pick only the current user
+                 members.push({  // move to top
+                     name: myUser.fullName,  
+                     link: `/groups/${currentRoomId}/${myUserId}`
+                 });
+     
+                 members = members.concat(
+                     room.members
+                         .filter(m => m._id !== myUserId) // remove the current usern //TODO
+                         .map(function(member){
+                             return {
+                                 id: member._id,
+                                 name: member.fullName,
+                                 roomId: currentRoomId,
+                                 link: `/groups/${currentRoomId}/${member._id}`
+                             } 
+                         })
+                     )
+     
+                 const promises = room.members
+                                      .find(u => u._id == wallUserId)
+                                      .walls
+                                      .map(wId => Wall.findById(wId).populate('comments.creator'))
+     
+                 return Promise.all(promises)
+                     .then(walls => {
+                         console.log(walls)
+                         const currentWall = walls.find(w => w.roomId.toString() == currentRoomId)
+     
+                         res.locals.wall = currentWall
+                         res.locals.memberList = members;
+                         res.locals.roomId = currentRoomId;
+                         res.locals.wallUser = wallUser;
+                         res.locals.isMyWall = isMyWall;
+                         res.locals.userId = req.user._id
+                         res.locals.isAdmin = isAdmin;
+                 
+                         res.render('room-views/my-room');
+                     })
+        })
+    // need to find admin Id
 
-            const myUser = room.members.find(m => (m._id == myUserId)); // pick only the current user
-            members.push({  // move to top
-                name: myUser.fullName,  
-                link: `/groups/${currentRoomId}/${myUserId}`
-            });
 
-            members = members.concat(
-                room.members
-                    .filter(m => m._id !== myUserId) // remove the current usern //TODO
-                    .map(function(member){
-                        return {
-                            id: member._id,
-                            name: member.fullName,
-                            roomId: currentRoomId,
-                            link: `/groups/${currentRoomId}/${member._id}`
-                        } 
-                    })
-                )
-
-            const promises = room.members
-                                 .find(u => u._id == wallUserId)
-                                 .walls
-                                 .map(wId => Wall.findById(wId))
-
-            Promise.all(promises)
-                .then(walls => {
-                    const currentWall = walls.find(w => w.roomId == currentRoomId)
-
-                    res.locals.wall = currentWall
-                    res.locals.memberList = members;
-                    res.locals.roomId = currentRoomId;
-                    res.locals.wallUser = wallUser;
-                    res.locals.isMyWall = isMyWall;
-                    res.locals.userId = req.user._id
-            
-                    console.log(res.locals.wall, "WALL")
-                    res.render('room-views/my-room');
-                })
+    
 
     }).catch(err => next(err))
 
@@ -123,7 +135,6 @@ router.get("/my-rooms", (req, res, next) => {
         .catch((err) => {
             next(err);
         })
-
 });
 
 //CREATE A NEW ROOM/GROUP IN THE DATABASE
@@ -245,9 +256,6 @@ router.post("/remove-user-from-room", (req, res, next) => {
 // });
 
 
-
-
-
 //CREATE A NEW ITEM IN THE WISHLIST AND IN THE DATABASE
 router.post("/process-wishlist-item", (req, res, next) => {
     const { title, description, pictureUrl, price, roomId, wallId } = req.body;
@@ -283,10 +291,10 @@ router.post("/process-comments", (req, res, next) => {
     const myUserId = req.user._id
     // const owner = req.user._id;
     console.log(req.body)
-    Wall.update({ _id: wallId },
+    Wall.findByIdAndUpdate({ _id: wallId },
                 { $push : { comments: { creator: userId, message } } })
-                .then(() => {
-            res.redirect(`/groups/${roomId}/${myUserId}`)
+                .then((wall) => {
+            res.redirect(`/groups/${roomId}/${wall.ownerId}`)
 
         })
         .catch((err) => {

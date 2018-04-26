@@ -47,7 +47,7 @@ router.post("/process-signup", (req, res, next) => {
             console.log("Created user:" + user)
             if (invite) { // If the invite was present, add user to a room
                 console.log("Added user to a room" + invite.roomsList[0] + user)
-                Room.update({ _id: invite.roomsList[0] }, 
+                Room.findByIdAndUpdate(invite.roomsList[0], 
                             { $push: { members: user } })
                     .then((room) => {
                         Wall.create({
@@ -177,7 +177,7 @@ router.post('/process-invite/:groupId', (req, res, next) => {
 
             Promise.all([saveInvite, sendMail])
                 .then(() => {
-                    res.redirect("/groups/"+groupId);
+                    res.redirect(`/groups/${req.params.groupId}/${req.user._id}`);
                 })
                 .catch((err) => {
                     next(err);

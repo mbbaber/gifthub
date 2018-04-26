@@ -7,7 +7,7 @@
    
 <br><br>
     {{#wall.comments}}
-    <p> says: </p>
+    <p> {{this.creator.fullName}} says: </p>
     {{this.message}} <br/><br>
        
     {{/wall.comments}}
@@ -54,7 +54,7 @@
 
         <div class="comments-itself">
             {{#wall.comments}}
-                {{> wishlistCommentPartial}}
+                {{this.message}}
             {{/wall.comments}}
         </div>
 

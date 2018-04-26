@@ -10,9 +10,11 @@
                             <form action="/remove-user-from-room" class="member-card" method="POST">
                                 <img src="https://capenetworks.com/static/images/testimonials/user-icon.svg" alt="Person's profile pic">
                                 <h3>{{name}}</h3>
-                                <input type="hidden" name="userToDelete" value={{id}}>
-                                <input type="hidden" name="roomId" value={{roomId}}>
-                                {{!-- <button>Delete {{name}}</button> --}}
+                                <input type="hidden" name="userToDelete" value={{../userId}}>
+                                <input type="hidden" name="roomId" value={{../roomId}}>
+                                {{#if ../isAdmin}}
+                                <button>Delete</button>
+                                {{/if}}
                             </form>
                         </a>
                     </li>
