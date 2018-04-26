@@ -44,7 +44,8 @@ a:hover {
   height: 85vh;
   padding: 40px;
   display: flex;
-  background-image: url("../images/christmas-dark.png");
+  background-image: url("../images/gradient-background.png");
+  background-size: 100% 100%;
   background-position: cover;
   color: white; }
 
@@ -143,9 +144,15 @@ nav a {
   min-width: 250px;
   max-width: 250px;
   height: 100%;
-  background: #e7e7e7;
   padding: 10px;
   overflow: scroll; }
+
+.vl {
+  border-left: 1px solid #e7e7e7;
+  height: 60vh;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%); }
 
 .member-card {
   width: 100%;
@@ -184,8 +191,7 @@ button.popup {
 
 #sidebar {
   flex-direction: row;
-  min-width: 50px;
-  background: #e7e7e7; }
+  min-width: 50px; }
 
 #wall-partial {
   height: 100%;
@@ -204,7 +210,7 @@ button.popup {
 .wishlist-main-container,
 .comments-main-container {
   width: 350px;
-  height: 600px;
+  height: 450px;
   display: flex;
   flex-direction: column;
   margin-bottom: 50px; }
@@ -224,22 +230,31 @@ button.popup {
 #comments-input,
 .comments-form button {
   height: 40px;
-  border-radius: 5px;
+  border-radius: 5px 0 0 5px;
   color: #414141;
-  margin-bottom: 14px;
-  padding: 0 20px; }
+  margin-bottom: 24px;
+  padding: 0 20px;
+  border: none; }
 
 #wishlist-input,
 #comments-input {
-  width: 82%; }
+  width: 100%; }
 
 .wishlist-form button,
 .comments-form button {
-  width: 15%;
+  min-width: 40px;
   font-size: 1.5em;
-  padding: 2px 0 0 0; }
+  padding: 2px 0 0 0;
+  margin-left: 0;
+  border-radius: 0 5px 5px 0;
+  background: darkturquoise; }
 
-.wishlist-item-card {
+.comments-form img {
+  width: 20px;
+  height: 20px; }
+
+.wishlist-item-card,
+.comment-card {
   width: 100%;
   height: 40px;
   display: flex;
@@ -251,6 +266,17 @@ button.popup {
   color: #414141;
   margin-bottom: 7px;
   padding: 0 20px; }
+
+.comment-card {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  height: auto;
+  padding: 10px 20px;
+  line-height: 1.2; }
+
+.comment-card p:first-child {
+  font-weight: bold; }
 
 .wishlist-item-card button,
 .wishlist-item-card form {

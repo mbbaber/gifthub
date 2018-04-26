@@ -12,7 +12,7 @@
 
                 <div class="wishlist-form">
                 
-                    <input id="wishlist-input" type="text" name="title" placeholder="Gift ideas?>
+                    <input id="wishlist-input" type="text" name="title" placeholder="Any gift ideas?">
 
                     <input type = "hidden" name = "roomId" value = {{roomId}}>
                     <input type = "hidden" name = "userId" value = {{userId}}>
@@ -34,7 +34,7 @@
                         <p><a href="#">❤️</a> {{this.title}}</p>
 
                         {{#if this.claimedBy}}
-                            <p>Claimed by {{this.claimedBy.fullName}}</p>
+                            <p>✅ {{this.claimedBy.fullName}}</p>
                         {{else}}
                         <form action="/process-claim" method= "POST">
                             <input type="hidden" name="wallId" value={{../wall._id}}>
@@ -54,26 +54,31 @@
 
         <div class="comments-main-container">
 
-            <div class="comments-form">
+            <form action = "/process-comments" method = "POST">
 
-                    <form action = "/process-comments" method = "POST">
+                <div class="comments-form">
 
-                        <input id="comments-input" type="text" name="message" placeholder="Any comments?">
+                    <input id="comments-input" type="text" name="message" placeholder="Any comments?">
 
-                        <input type="hidden" name = "roomId" value = {{roomId}}>
-                        <input type="hidden" name = "userId" value = {{userId}}>
-                        <input type="hidden" name = "wallId" value = {{wall._id}}>
+                    <input type="hidden" name = "roomId" value = {{roomId}}>
+                    <input type="hidden" name = "userId" value = {{userId}}>
+                    <input type="hidden" name = "wallId" value = {{wall._id}}>
 
                     <button>➕</button>
-                </form>
-                
-            </div>
+            
+                </div>
+
+            </form>
 
             <div class="comments-itself">
+
                 {{#wall.comments}}
-                    <p> {{this.creator.fullName}} says: </p>
-                    {{this.message}}
+                    <div class="comment-card">
+                        <p>{{this.creator.fullName}}:</p>
+                        <p>{{this.message}}</p>
+                    </div>
                 {{/wall.comments}}
+
             </div>
 
         </div>
