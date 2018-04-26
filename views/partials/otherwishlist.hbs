@@ -1,0 +1,18 @@
+<h1>{{wallUser.fullName}}'s WISHLIST</h1>
+
+
+<div id="wall-content">
+
+    <div class="wishlist-main-container">
+        {{#wall.wishlist}}
+            <span><p>{{this.title}}</p> <button>Claim</button></span>
+        {{/wall.wishlist}}
+    </div>
+
+    <div class="comments-main-container">
+        {{#wall.comments}}
+            
+        {{/wall.comments}}
+    </div>
+
+</div>

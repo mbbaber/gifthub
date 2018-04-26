@@ -4,17 +4,19 @@
             <ul>
 
                 <!-- DISPLAY EXISTING MEMBERS -->
-                {{#each memberList}}
+                {{#memberList}}
                     <li>
-                        <a href='/groups/' + {{../roomId}} + '/' + {{../this.id}}>
-                            <div class="member-card">
-                                {{!-- <img src="" alt="Person's profile pic"> --}}
-                                <h3>{{this}}</h3>
-                                <button>delete {{this}}</button>
-                            </div>
+                        <a href={{link}}>
+                            <form action="/remove-user-from-room" class="member-card" method="POST">
+                                <img src="https://capenetworks.com/static/images/testimonials/user-icon.svg" alt="Person's profile pic">
+                                <h3>{{name}}</h3>
+                                <input type="hidden" name="userToDelete" value={{id}}>
+                                <input type="hidden" name="roomId" value={{roomId}}>
+                                {{!-- <button>Delete {{name}}</button> --}}
+                            </form>
                         </a>
                     </li>
-                {{/each}}
+                {{/memberList}}
 
                 <!-- ADD A MEMBER -->
                 <li>
@@ -36,11 +38,14 @@
             {{!-- <img src="#" alt="General chat icon">
             <img src="#" alt="Most upvoted gift ideas view"> --}}
         </div>
-
-
-        <div id="wall-partial">
+    
+    <div id="wall-partial">
+        {{#if isMyWall}}
             {{> mywishlist}}
-        </div>
+        {{else}}
+            {{> otherwishlist}}
+        {{/if}}
+    </div>
 
 </div>
 
@@ -48,7 +53,7 @@
 
 
 <!-- POP UP BOXES -->
-<div id="abc1" {{#if searchResults}}style="display: block;"{{/if}}>
+<div id="abc1" {{#if displaySearch}}style="display: block;"{{/if}}>
     <div id="popupContact" class="form-class" >
         <form  action="/process-search" method="POST">
             <img id="close" src="/public/images/x-button.png" onclick="div_hide1()">
@@ -65,10 +70,14 @@
         
         <form action="/add-user-to-room" method="POST">
             <input type="hidden" name="roomId" value={{roomId}}>
-            {{#searchResults}}
-                <input type="hidden" name="userId" value={{userId}}>
-                <div>{{userName}} <button>Add</button></div>
-            {{/searchResults}}
+            {{#if searchResults}}
+                {{#searchResults}}
+                    <input type="hidden" name="userId" value={{userId}}>
+                    <div>{{userName}} <button>Add</button></div>
+                {{/searchResults}}
+            {{else}}
+                <div>Did not find anyone with that name</div>
+            {{/if}}
         </form>
     </div>
 </div>
