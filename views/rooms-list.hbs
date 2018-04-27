@@ -10,13 +10,13 @@
 
     <div id="rooms-list">
         <ul>
-            <li>
             {{#each roomList}}
-                {{> myRoomsPartial}}
-            {{!-- {{else}}
-                <p>You do not currently have any rooms</p> --}}
+                <li>
+                    {{> myRoomsPartial}}
+                {{!-- {{else}}
+                    <p>You do not currently have any rooms</p> --}}
+                </li>
             {{/each}}
-            </li>
 
             <li>
                 <button id="create-new-room" onclick="div_show()">+</button>

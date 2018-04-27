@@ -29,7 +29,7 @@ body {
   background-image: url("../images/gradient-background.png");
   background-size: 100vw, 100vh;
   background-position: cover;
-  background-repeat: no-repeat; }
+  background-repeat: repeat-y; }
 
 body, html {
   height: 100%; }
@@ -168,15 +168,23 @@ nav a:hover {
   border-left: 6px solid orange; }
 
 #rooms-list {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
   width: 750px;
   flex-wrap: wrap; }
+
+#rooms-list ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; }
 
 #rooms-list p {
   width: 100%;
   text-align: center; }
+
+#rooms-list li {
+  margin-right: 30px; }
+
+#rooms-list li:last-child {
+  margin: 0; }
 
 #rooms-list li:last-child button {
   width: 150px;
@@ -190,36 +198,46 @@ nav a:hover {
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  padding-bottom: 10px; }
+  padding-bottom: 10px;
+  margin: 0; }
 
 .room-card img {
   width: 150px;
   height: 150px;
+  border-radius: 10px 10px 0 0;
   margin-bottom: 16px; }
 
 .room-card h5 {
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: bold;
   margin-bottom: 8px; }
 
 .room-card p {
   margin-bottom: 24px;
-  color: lightgray; }
+  color: #afafaf;
+  font-size: 0.9em; }
 
 .room-card button {
-  background-color: darkturquoise;
   border-radius: 5px;
-  border: none;
-  padding: 2px 5px; }
+  border: 1px solid darkturquoise;
+  padding: 4px 6px;
+  margin-top: auto;
+  background: none;
+  color: darkturquoise; }
+
+.room-card a {
+  margin-top: auto; }
 
 .room-card {
   width: 150px;
-  height: 300px;
+  height: 290px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: flex-start;
   text-align: center;
-  margin: 0 auto; }
+  padding-bottom: 10px;
+  border: 1px solid white;
+  border-radius: 10px; }
 
 #members-list {
   flex-direction: column;
