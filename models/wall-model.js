@@ -29,6 +29,10 @@ const wallSchema = new Schema({
             claimedBy: { 
                 type: Schema.Types.ObjectId,
                 ref: "User"
+            },
+            postedBy: {
+                type: Schema.Types.ObjectId,
+                ref: "User"
             }
         }
     ]

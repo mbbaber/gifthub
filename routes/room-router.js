@@ -22,9 +22,11 @@ router.use( ensureLogin.ensureLoggedIn("/") );
 router.get('/groups/:groupId/:userId', (req, res, next) => {
     var members = [];
     const currentRoomId = req.params.groupId;
-    const wallUserId = req.params.userId
+    const wallUserId = req.params.userId;
     const myUserId = req.user._id.toString(); // Don't know why, but this works...
 
+    // const isPoster = wall.wishlist.postedBy._id.toString() == myUserId;
+    
     const isMyWall = wallUserId == myUserId // hbs doesn't support equal if statements...
     //const adminId = room.administratorId;
 
@@ -74,9 +76,11 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
                                       .walls
                                       .map(wId => Wall.findById(wId)
                                                       .populate([{ path: 'wishlist.claimedBy', 
-                                                                  select:'fullName'},
-                                                                { path: 'comments.creator', 
-                                                                  select:'fullName'}]))
+                                                                   select:'fullName'},
+                                                                   {
+                                                                       path: 'comments.creator', 
+                                                                       select:'fullName'
+                                                                    }]))
                                                                 //   ,
                                                                 // 'comments.creator'))
      
@@ -89,6 +93,10 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
                          if(currentWall.wishlist){
                             console.log(currentWall)
                          }
+                         if( isMyWall ) {
+                             currentWall.wishlist = currentWall.wishlist.filter( i => i.postedBy.toString() == myUserId )
+                         }
+
                          res.locals.wall = currentWall
                          res.locals.memberList = members;
                          res.locals.roomId = currentRoomId;
@@ -96,6 +104,7 @@ router.get('/groups/:groupId/:userId', (req, res, next) => {
                          res.locals.isMyWall = isMyWall;
                          res.locals.userId = req.user._id
                          res.locals.isAdmin = isAdmin;
+                        //  res.locals.isPoster = isPoster;
                  
                          res.render('room-views/my-room');
                      })
@@ -264,14 +273,14 @@ router.post("/remove-user-from-room", (req, res, next) => {
 
 //CREATE A NEW ITEM IN THE WISHLIST AND IN THE DATABASE
 router.post("/process-wishlist-item", (req, res, next) => {
-    const { title, description, pictureUrl, price, roomId, wallId } = req.body;
+    const { title, description, pictureUrl, price, roomId, wallId, userId } = req.body;
 
     const myUserId = req.user._id
-    // const owner = req.user._id;
+    const postedBy = userId;
 
     console.log(req.body)
     Wall.findByIdAndUpdate({ _id: wallId },
-                { $push : { wishlist: { title, description, pictureUrl, price } } })
+                { $push : { wishlist: { title, description, pictureUrl, price, postedBy } } })
         .then((wall) => {
             res.redirect(`/groups/${roomId}/${wall.ownerId}`)
 

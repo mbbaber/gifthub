@@ -29,29 +29,34 @@ footer, header, hgroup, menu, nav, section {
 body {
   line-height: 1;
   font-family: sans-serif;
-  position: relative;
-  top: 60px;
-  bottom: 60px;
+  background-image: url( "../images/gradient-background.png" );
+  background-size: 100vw, 100vh;
+  background-position: cover;
+  background-repeat: no-repeat;
 }
+
+body, html {
+  height: 100%;
+}
+
 ol, ul {
 	list-style: none;
 }
 
 a:hover {
   text-decoration: none;
-  color: darkturquoise;
 }
 
 .index-container,
 .rooms-list-container,
 .room-view-container {
   width: 100vw;
-  height: 85vh;
+  height: 100%;
   padding: 40px;
   display: flex;
-  background-image: url( "../images/gradient-background.png" );
-  background-size: 100% 100%;
-  background-position: cover;
+  // background-image: url( "../images/gradient-background.png" );
+  // background-size: 100% 100%;
+  // background-position: cover;
   color: white;
 }
 
@@ -60,6 +65,7 @@ a:hover {
 } 
 
 .rooms-list-container {
+  padding-top: 12%;
   flex-direction: column;
   align-items: center;
 }
@@ -91,8 +97,12 @@ header, footer {
 
 header {
   justify-content: flex-end;
-  background: darkturquoise;
+  // background: darkturquoise;
   top: 0;
+}
+
+header h2 a:hover {
+  color: orange;
 }
 
 footer {
@@ -111,6 +121,10 @@ a, footer, nav strong {
 
 nav a {
   margin-left: 20px;
+}
+
+nav a:hover {
+  color: orange;
 }
 
 
@@ -194,7 +208,7 @@ nav a {
   max-width: 250px;
   height: 100%;
   // background: rgb(231, 231, 231);
-  padding: 10px;
+  padding: 60px 10px 10px 10px;
   overflow: scroll;
 }
 
@@ -256,7 +270,7 @@ button.popup {
 #wall-partial {
   height: 100%;
   width: 100%;
-  padding: 40px 0;
+  padding: 12% 0 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;

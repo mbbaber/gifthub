@@ -25,25 +25,14 @@
         <div class="wishlist-itself">
             {{#wall.wishlist}}
 
-                <span>
-                    <div class="wishlist-item-card">
+                {{!-- {{#if isPoster}} --}}
+                    <span>
+                        <div class="wishlist-item-card">
+                            <p><a href="#">❤️</a> {{this.title}}</p>
+                        </div>
+                    </span>
+                {{!-- {{/if}} --}}
 
-                        <p><a href="#">❤️</a> {{this.title}}</p>
-
-                        {{#if this.claimedBy}}
-                            <p>✅ {{this.claimedBy.fullName}}</p>
-                        {{else}}
-                        <form action="/process-claim" method= "POST">
-                            <input type="hidden" name="wallId" value={{../wall._id}}>
-                            <input type="hidden" name="item" value="{{this.title}}">
-                            <input type="hidden" name="roomId" value={{../roomId}}>
-                            <button>Claim</button>
-                        </form>
-                        {{/if}}
-
-                    </div>
-
-                </span>
             {{/wall.wishlist}}
         </div>
 
