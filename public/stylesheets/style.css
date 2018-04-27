@@ -201,6 +201,9 @@ nav a:hover {
   padding-bottom: 10px;
   margin: 0; }
 
+#rooms-list li:last-child button:hover {
+  cursor: pointer; }
+
 .room-card img {
   width: 150px;
   height: 150px;
@@ -223,7 +226,12 @@ nav a:hover {
   padding: 4px 6px;
   margin-top: auto;
   background: none;
-  color: darkturquoise; }
+  color: darkturquoise;
+  cursor: pointer; }
+
+.room-card button:hover {
+  background-color: darkturquoise;
+  color: white; }
 
 .room-card a {
   margin-top: auto; }
@@ -259,13 +267,15 @@ nav a:hover {
   height: 80px;
   display: flex;
   align-items: center;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
+  border-left: 4px solid orange;
   border-radius: 10px;
   margin-bottom: 10px;
   padding: 20px; }
 
 .member-card h3 {
-  color: #414141;
+  color: white;
   margin-right: auto; }
 
 .member-card img {
@@ -273,19 +283,27 @@ nav a:hover {
   width: 40px;
   margin-right: 20px; }
 
+.member-card button {
+  background: none;
+  border: 1px solid red;
+  padding: 5px 0 1px 4px;
+  border-radius: 3px; }
+
 #invite-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: darkturquoise;
   padding: 5px 10px; }
+
+#invite-card h3 {
+  margin: 0; }
 
 #invite-card > div {
   display: flex; }
 
 button.popup {
   padding: 6px 5px 5px 9px;
-  border-radius: 3px;
+  border-radius: 6px;
   border: 1px solid darkturquoise;
   margin: 10px 10px 0 0; }
 
@@ -347,7 +365,10 @@ button.popup {
   padding: 2px 0 0 0;
   margin-left: 0;
   border-radius: 0 5px 5px 0;
-  background: darkturquoise; }
+  background: darkturquoise;
+  color: white;
+  font-size: 2em;
+  padding: 0 0 4px 0; }
 
 .comments-form img {
   width: 20px;
