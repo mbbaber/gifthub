@@ -9,12 +9,19 @@
     <!-- call a partial passing the info about each group -->
 
     <div id="rooms-list">
-        {{#each roomList}}
-            {{> myRoomsPartial}}
-        {{else}}
-            <p>You do not currently have any rooms</p>
-        {{/each}}
-        <p>{{userId}}</p>
+        <ul>
+            <li>
+            {{#each roomList}}
+                {{> myRoomsPartial}}
+            {{!-- {{else}}
+                <p>You do not currently have any rooms</p> --}}
+            {{/each}}
+            </li>
+
+            <li>
+                <button id="create-new-room" onclick="div_show()">+</button>
+            </li>
+        </ul>
     </div>
 
 
@@ -47,8 +54,6 @@
         </form>
         </div>
     </div>
-    <!-- Display Popup Button -->
-    <button id="create-new-room" onclick="div_show()">Create A New Room</button>
 
 
     <script>

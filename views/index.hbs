@@ -4,49 +4,53 @@
 
     <div class="forms-wrapper">
 
-        <p><a id="signup-link" href="#">Sign up</a> | <a id="login-link" href="#">Log in</a></p><br>
+        <p><a id="signup-link" href="#">Sign up</a> | <a id="login-link" href="#">Log in</a></p>
+
 
         
-        
-    {{!-- 
-    SIGN UP FORM
-    --------------------------------------------------------------------------
-    --}}
+        {{!-- 
+        SIGN UP FORM
+        --------------------------------------------------------------------------
+        --}}
 
         <form id="signup-form" action="/process-signup" method="POST">
 
-            <label for="fullName">What should we call you?</label><br>
-            <input id="fullName" type="text" name="fullName"><br><br>
-
+            <div class="input-wrapper">
+                <div class="icon-box">🐙</div>
+                <input type="text" name="fullName" placeholder="What should we call you?"><br><br>
+            </div>
+            
                 {{#if nameMessage}}
                     <p>{{nameMessage}}</p>
-                <br><br>
+                    <br><br>
                 {{/if}}
 
-            <label for="email">Email</label><br>
-            <input id="email" type="email" name="email"><br><br>
+             <div class="input-wrapper">
+                <div class="icon-box">✉️</div>
+                <input type="email" name="email" placeholder="We'll keep your email for ourselves!"><br><br>
+            </div> 
 
                 {{#if emailMessage}}
                     <p>{{emailMessage}}</p>
-                <br><br>
+                    <br><br>
                 {{/if}}
 
-            <label for="password">Password</label><br>
-            <input id="password" type="password" name="password"><br><br>
+            <div class="input-wrapper">
+                <div class="icon-box">🙈</div>
+                <input type="password" name="password" placeholder="This is where you type 123456"><br><br>
+            </div>
 
                 {{#if passwordMessage}}
                     <p>{{passwordMessage}}</p>
-                <br><br>
+                    <br><br>
                 {{/if}}
 
-            {{#if confirmationCode}}
-                <p>You have been invited!</p>
-                <input id="confirmationCode" name="confirmationCode" type="hidden" value={{confirmationCode}}>
-            {{/if}}
+                {{#if confirmationCode}}
+                    <p>You have been invited!</p>
+                    <input id="confirmationCode" name="confirmationCode" type="hidden" value={{confirmationCode}}>
+                {{/if}}
             
-            
-
-            <button>Let's go!</button>
+                <button>🚀</button>
 
         </form>
 
@@ -59,25 +63,57 @@
 
         <form id="login-form" action="/process-login" method="POST">
 
-            <label for="email">Email</label><br>
-            <input id="email" type="email" name="email"><br><br>
+            <div class="input-wrapper">
+                <div class="icon-box">✉️</div>
+                <input type="email" name="email" placeholder="Not your spambox please">
+            </div>
 
                 {{#if noUserMessage}}
                     <p>{{noUserMessage}}</p>
-                <br><br>
+                    <br><br>
                 {{/if}}
-
-            <label for="password">Password</label><br>
-            <input id="password" type="password" name="password"><br><br>
+            <div class="input-wrapper">
+                <div class="icon-box">🙈</div>
+                <input type="password" name="password" placeholder="Let me just grab a pen">
+            </div>
 
                 {{#if wrongPasswordMessage}}
                     <p>{{wrongPasswordMessage}}</p>
-                <br><br>
+                    <br><br>
                 {{/if}}
 
-            <button>Let's go!</button>
+            <button>🚀</button>
 
         </form>
+    </div>
+
+
+
+    {{!-- 
+    INDEX INFO BUBBLES
+    --------------------------------------------------------------------------
+    --}}
+
+    <div class="index-info">
+
+        <h3>How does Gi<span>f</span>thub work?</h3>
+        
+        <div class="wishlist-item-card">
+            <h4> ✅ 1. CREATE YOUR GROUP </h4>
+        </div>
+
+        <div class="wishlist-item-card">
+            <h4> ✅ 2. INVITE YOUR FRIENDS AND FAMILY</h4>
+        </div>
+
+        <div class="wishlist-item-card">
+            <h4> ✅ 3. ORGANIZE YOUR GIFTS </h4>
+        </div>
+
+        <div class="wishlist-item-card">
+            <h4> ❤️ 4. CELEBRATE YOUR SPECIAL MOMENTS</h4>
+        </div>
+
     </div>
 
 </div>

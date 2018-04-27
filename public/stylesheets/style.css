@@ -50,7 +50,8 @@ a:hover {
   color: white; }
 
 .index-container {
-  align-items: center; }
+  align-items: center;
+  justify-content: space-between; }
 
 .rooms-list-container {
   padding-top: 12%;
@@ -87,7 +88,8 @@ footer {
   bottom: 0; }
 
 #logo {
-  margin-right: auto; }
+  margin-right: auto;
+  font-size: 1.5em; }
 
 a, footer, nav strong {
   color: white; }
@@ -98,12 +100,72 @@ nav a {
 nav a:hover {
   color: orange; }
 
+#signup-form,
+#login-form {
+  margin-top: 16px; }
+
 .forms-wrapper {
   color: white;
   height: 200px; }
 
 .active {
   color: darkturquoise; }
+
+.input-wrapper {
+  display: flex; }
+
+.forms-wrapper input {
+  width: 300px;
+  height: 40px;
+  border-radius: 0 5px 5px 0;
+  margin-bottom: 7px;
+  border: none;
+  padding-left: 8px; }
+
+.forms-wrapper ::placeholder {
+  font-size: 0.9em;
+  font-style: italic;
+  color: #8f8f8f; }
+
+.forms-wrapper .icon-box {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5em;
+  border-radius: 5px 0 0 5px;
+  background: darkturquoise;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 0 0 1px; }
+
+.forms-wrapper button {
+  width: 80px;
+  height: 40px;
+  background: darkturquoise;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 0 0 2px;
+  font-size: 1.5em; }
+
+.index-info {
+  transform: translateX(-50%); }
+
+.index-info h3 {
+  font-size: 2em;
+  margin-bottom: 24px; }
+
+#logo span,
+.index-info span {
+  color: orange; }
+
+.index-info div {
+  margin-bottom: 16px;
+  height: 50px;
+  border-left: 6px solid orange; }
 
 #rooms-list {
   display: flex;
@@ -115,6 +177,20 @@ nav a:hover {
 #rooms-list p {
   width: 100%;
   text-align: center; }
+
+#rooms-list li:last-child button {
+  width: 150px;
+  height: 150px;
+  background: none;
+  border: 2px solid orange;
+  border-radius: 10px;
+  font-size: 6em;
+  color: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  padding-bottom: 10px; }
 
 .room-card img {
   width: 150px;
@@ -310,9 +386,6 @@ button.popup {
   position: fixed;
   background-color: white;
   overflow: auto; }
-
-#create-new-room {
-  margin-top: 100px; }
 
 img.close {
   position: absolute;
